@@ -1,6 +1,6 @@
 """Species classifier registry and inference.
 
-The registry loads torch checkpoints produced by ``scripts/train_classifier.py``.
+The registry loads torch checkpoints produced by ``backend/scripts/train_classifier.py``.
 PyTorch is imported lazily so the web app (and most tests) can run without the
 ~2 GB AI dependency. When no checkpoint exists, the API returns an explicit
 "model unavailable" response instead of a fabricated prediction.
@@ -78,7 +78,7 @@ class PredictorRegistry:
                 (
                     f"No trained {category} model is installed at "
                     f"'{model_path.relative_to(settings.model_dir.parent)}'. "
-                    "Train one with scripts/train_classifier.py (see docs/MODEL_TRAINING.md). "
+                    "Train one with backend/scripts/train_classifier.py (see docs/MODEL_TRAINING.md). "
                     "The rest of BioTrace works without it."
                 ),
             )
@@ -115,7 +115,7 @@ class PredictorRegistry:
             raise ModelNotAvailable(
                 category,
                 "Model file found but its class-name mapping is missing. "
-                "Retrain with scripts/train_classifier.py.",
+                "Retrain with backend/scripts/train_classifier.py.",
             )
 
         if architecture.startswith("mobilenet_v3_small"):

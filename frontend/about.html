@@ -41,6 +41,7 @@
           <div class="stat"><div class="stat-value" id="about-observations">—</div><div class="stat-label">Consented observations</div><div class="stat-note">Not the same as verified records</div></div>
           <div class="stat"><div class="stat-value" id="about-districts">—</div><div class="stat-label">Districts covered</div><div class="stat-note">From recorded destinations</div></div>
         </div>
+        <p class="small muted" id="about-verified-note" style="margin:14px 0 0">Reading live counts…</p>
       </div>
     </section>
 
@@ -103,6 +104,13 @@
               <div class="info-row"><i data-lucide="leaf" aria-hidden="true"></i><div class="info-key">Species taxonomy</div><div class="info-val">Curated catalogue cross-checked against the GBIF backbone. Descriptions are project-written, CC BY-SA 4.0.</div></div>
               <div class="info-row"><i data-lucide="image" aria-hidden="true"></i><div class="info-key">Species photographs</div><div class="info-val">Training images are recorded with source and licence in the model card and dataset manifest. No tourism photographs are used; category artwork is CSS + Lucide icons.</div></div>
               <div class="info-row"><i data-lucide="map" aria-hidden="true"></i><div class="info-key">Basemap tiles</div><div class="info-val">OpenStreetMap standard tiles, © OpenStreetMap contributors, ODbL. Tile usage is for academic demonstration, not high-volume production.</div></div>
+            </div>
+            <div class="panel" style="margin-top:18px">
+              <div class="panel-head"><div><h3>Catalogue composition</h3><p>Live counts from the species table.</p></div></div>
+              <div id="about-species-summary">
+                <div class="skeleton skeleton-line w-60"></div>
+                <div class="skeleton skeleton-line"></div>
+              </div>
             </div>
           </div>
           <div>

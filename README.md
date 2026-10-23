@@ -63,7 +63,9 @@ backend/
     routers/         admin, biodiversity, favourites, itineraries, meta, reports, tourism
     services/        predictor, storage, geo, geocoding, image_quality
     data/            Seed data (species, tourism, categories)
-  scripts/           Tourism import + geocoding CLIs
+  scripts/           Tourism import, model training, evaluation, migration helpers
+  tests/             Pytest suite (isolated temp database)
+docs/                Datasets, model training and limitations
 frontend/
   *.html             Pages (home, biodiversity, destination, itinerary, map, saved, tourism)
   css/  js/  assets/ Styles, modules, self-hosted fonts
@@ -93,6 +95,41 @@ Trained weights (`*.pt`, `*.pth`, `*.onnx`, checkpoints) are **not** in the repo
 predictions, place artifacts under `models/plant/` and `models/bird/` alongside their
 `model_card.json` class-name maps. Until then the app runs fine and reports models as
 "not installed".
+
+To train one:
+
+```bash
+pip install -r requirements-ai.txt
+python -m backend.scripts.train_classifier \
+    --category plant --data datasets/plants --epochs 8 --output models/plant
+```
+
+See [`docs/MODEL_TRAINING.md`](docs/MODEL_TRAINING.md) for the artifact contract and
+[`docs/DATASETS.md`](docs/DATASETS.md) for the seed-data schema.
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest
+```
+
+The suite runs against an isolated temporary SQLite database and upload directory, so it
+never touches `data/biotrace.db`. It covers the platform endpoints, tourism filters, the
+species catalogue, honest "model unavailable" behaviour, image validation, per-session
+favourites and itineraries, admin auth/review flows, geo helpers and seed-data integrity.
+
+## Docs and scripts
+
+| Path | Purpose |
+| ---- | ------- |
+| `docs/DATASETS.md` | Seed-data schema, import and geocoding pipeline |
+| `docs/MODEL_TRAINING.md` | Model artifact contract, training and abstention threshold |
+| `docs/LIMITATIONS.md` | Scientific, data, privacy and operational limits |
+| `backend/scripts/import_tourism.py` | Import/geocode `tourism_seed_*.jsonl` |
+| `backend/scripts/train_classifier.py` | Train a MobileNetV3 classifier for BioTrace |
+| `backend/scripts/evaluate.py` | Score the image-quality heuristics on a labelled probe set |
+| `backend/scripts/migrate.py` | Schema drift check and Alembic bootstrap |
 
 ## Notes
 

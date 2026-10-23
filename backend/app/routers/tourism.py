@@ -220,7 +220,7 @@ def list_destinations(
     unknown = [item for item in categories if item not in CATEGORY_BY_SLUG]
     if unknown:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=422,
             detail=f"Unknown category: {', '.join(unknown)}",
         )
 
@@ -444,7 +444,7 @@ def suggest_destination(
         )
     if payload.category not in CATEGORY_BY_SLUG:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=422,
             detail=f"Unknown category '{payload.category}'.",
         )
     report = ReviewReport(

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reviewer Console — BioTrace</title>
+  <meta name="description" content="Restricted BioTrace reviewer console for observation verification, destination status and reported data problems." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>Reviewer console</span>
+        </div>
+        <span class="eyebrow">Restricted · Human review</span>
+        <h1>Reviewer console</h1>
+        <p>
+          Observations, destination status and reported data problems. Nothing here is public:
+          the console requires the administrator credentials configured in the server environment.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <!-- ------------------------------------------------------------ Login -->
+        <div id="admin-login" class="panel login-card">
+          <div class="panel-head" style="margin-bottom:14px">
+            <div>
+              <h3 style="margin:0">Sign in</h3>
+              <p>For project reviewers only.</p>
+            </div>
+            <span class="badge badge-neutral"><i data-lucide="lock" aria-hidden="true"></i>Private</span>
+          </div>
+
+          <div id="admin-login-error" class="callout danger hidden" role="alert" style="margin-bottom:16px"></div>
+
+          <form id="admin-login-form" novalidate>
+            <div class="field">
+              <label for="admin-username">Username</label>
+              <input class="input" id="admin-username" name="username" autocomplete="username"
+                     minlength="2" maxlength="80" required />
+            </div>
+            <div class="field">
+              <label for="admin-password">Password</label>
+              <div style="position:relative">
+                <input class="input" id="admin-password" name="password" type="password"
+                       autocomplete="current-password" minlength="6" maxlength="200" required
+                       style="width:100%;padding-right:46px" />
+                <button class="icon-btn" id="admin-password-toggle" type="button"
+                        aria-label="Show password" aria-pressed="false"
+                        style="position:absolute;top:50%;right:4px;transform:translateY(-50%)">
+                  <i data-lucide="eye" aria-hidden="true"></i>
+                </button>
+              </div>
+              <span class="field-hint">Credentials come from <span class="mono">ADMIN_USERNAME</span> and
+                <span class="mono">ADMIN_PASSWORD</span> in the server’s <span class="mono">.env</span> file.
+                Change the default before sharing the app.</span>
+            </div>
+            <button class="btn btn-primary" id="admin-login-submit" type="submit" style="width:100%">
+              <i data-lucide="log-in" aria-hidden="true"></i>Sign in to review
+            </button>
+          </form>
+
+          <p class="tiny muted" style="margin:16px 0 0">
+            Tokens are held in this tab’s <span class="mono">sessionStorage</span> and expire automatically.
+            No public account can be created here.
+          </p>
+        </div>
+
+        <!-- -------------------------------------------------------------- App -->
+        <div id="admin-app" class="hidden">
+          <div class="row-between" style="margin-bottom:20px">
+            <div>
+              <div class="row" style="gap:8px">
+                <span class="badge badge-ai"><i data-lucide="shield-check" aria-hidden="true"></i>Signed in</span>
+                <span class="small muted">as <strong id="admin-user">reviewer</strong></span>
+              </div>
+              <h2 id="admin-section-title" style="margin:10px 0 0">Overview</h2>
+              <p id="admin-section-sub" class="muted" style="margin:4px 0 0;font-size:.9rem">
+                Live review workload and recent activity.
+              </p>
+            </div>
+            <div class="row" style="gap:8px">
+              <button class="btn btn-secondary btn-sm" id="admin-refresh" type="button">
+                <i data-lucide="refresh-cw" aria-hidden="true"></i>Refresh
+              </button>
+              <button class="btn btn-ghost btn-sm" id="admin-logout" type="button">
+                <i data-lucide="log-out" aria-hidden="true"></i>Sign out
+              </button>
+            </div>
+          </div>
+
+          <div class="admin-layout">
+            <aside class="admin-nav" aria-label="Reviewer console sections">
+              <button type="button" data-section="overview" class="is-active" aria-current="true">
+                <i data-lucide="layout-dashboard" aria-hidden="true"></i>Overview
+              </button>
+              <button type="button" data-section="observations">
+                <i data-lucide="scan-eye" aria-hidden="true"></i>Observations
+              </button>
+              <button type="button" data-section="destinations">
+                <i data-lucide="map-pinned" aria-hidden="true"></i>Destinations
+              </button>
+              <button type="button" data-section="reports">
+                <i data-lucide="flag" aria-hidden="true"></i>Reports
+              </button>
+            </aside>
+            <div class="admin-panel" id="admin-content" aria-live="polite">
+              <div class="panel">
+                <div class="skeleton skeleton-line w-40"></div>
+                <div class="skeleton skeleton-line"></div>
+                <div class="skeleton skeleton-line w-60"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout neutral" style="margin-top:22px">
+            <i data-lucide="info" aria-hidden="true"></i>
+            <div>
+              <strong>Review actions are recorded.</strong>
+              Every observation or destination status change writes an audit entry. AI predictions are
+              preliminary; verifying one means a human has checked the evidence, not that the model improved.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

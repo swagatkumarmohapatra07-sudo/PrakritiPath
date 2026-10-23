@@ -43,7 +43,7 @@ def init_db() -> None:
     """Create tables and indexes if they do not exist.
 
     This project uses a documented create-all initialisation (no Alembic) to
-    keep the setup beginner friendly. ``scripts/migrate.py`` documents how to
+    keep the setup beginner friendly. ``backend/scripts/migrate.py`` documents how to
     move to Alembic for production use.
     """
     from . import models  # noqa: F401  (import registers the mappers)

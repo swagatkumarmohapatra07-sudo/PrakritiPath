@@ -2,7 +2,7 @@
 
 The checks are transparent heuristics, not guarantees. They flag images that a
 human would probably find difficult to identify from, and they are evaluated in
-``scripts/evaluate.py`` against a small hand-labelled quality probe set.
+``backend/scripts/evaluate.py`` against a small hand-labelled quality probe set.
 """
 
 from __future__ import annotations
