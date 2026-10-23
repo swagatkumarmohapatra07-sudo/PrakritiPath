@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Biodiversity AI — BioTrace</title>
+  <meta name="description" content="Upload a plant or bird photograph for a quality-checked, uncertainty-aware identification. BioTrace abstains when the evidence is weak and never fabricates a species." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>Biodiversity AI</span>
+        </div>
+        <span class="eyebrow">Identification studio</span>
+        <h1>Look closer. Stay honest.</h1>
+        <p>
+          Upload a clear photograph of a plant or bird. BioTrace checks image quality first, then
+          returns up to three candidates with a confidence score and an explicit decision.
+          A prediction is a screening suggestion — not a verified biodiversity record.
+        </p>
+        <div class="page-hero-actions">
+          <span class="badge badge-ai"><i data-lucide="cpu" aria-hidden="true"></i>CPU-only demonstration model</span>
+          <span class="badge badge-pending"><i data-lucide="clock" aria-hidden="true"></i>Human review required</span>
+          <a class="btn btn-secondary btn-sm" href="/about.html#models"><i data-lucide="book-open" aria-hidden="true"></i>Model documentation</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div id="model-status" class="callout neutral" style="margin-bottom:22px">
+          <i data-lucide="info" aria-hidden="true"></i>
+          <div>Checking whether a trained model is installed…</div>
+        </div>
+
+        <div class="bio-layout">
+          <div class="bio-upload-panel">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>1. Choose a subject</h3>
+                  <p>Plant and bird models are trained separately.</p>
+                </div>
+              </div>
+              <div class="segmented" id="category-switch" role="group" aria-label="Subject category">
+                <button type="button" class="is-active" data-category="plant" aria-pressed="true">
+                  <i data-lucide="leaf" aria-hidden="true"></i>Plant
+                </button>
+                <button type="button" data-category="bird" aria-pressed="false">
+                  <i data-lucide="bird" aria-hidden="true"></i>Bird
+                </button>
+              </div>
+
+              <div class="upload-zone" id="upload-zone" tabindex="0" role="button"
+                   aria-label="Choose or drop a photograph" style="margin-top:18px">
+                <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp" class="sr-only" />
+                <div id="upload-empty">
+                  <div class="upload-icon"><i data-lucide="image-plus" aria-hidden="true"></i></div>
+                  <h4>Drop a photo or click to browse</h4>
+                  <p>JPEG, PNG or WEBP · up to 8 MB</p>
+                  <div class="upload-formats">A close, sharply focused photo in daylight works best.</div>
+                </div>
+                <div id="upload-preview" class="upload-preview hidden">
+                  <img id="preview-image" alt="Your uploaded photograph preview" />
+                  <div class="upload-preview-bar">
+                    <span id="preview-name" class="muted">Selected image</span>
+                    <button class="upload-remove" id="remove-image" type="button">
+                      <i data-lucide="trash-2" aria-hidden="true"></i>Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form id="bio-form" style="margin-top:18px">
+                <div class="field">
+                  <label for="bio-district">District (optional)</label>
+                  <select class="select" id="bio-district" name="district">
+                    <option value="">Prefer not to say / not sure</option>
+                  </select>
+                  <span class="field-hint">Used only for a plausibility check against the curated distribution record. It does not change the image prediction.</span>
+                </div>
+                <div class="grid grid-2" style="gap:12px">
+                  <div class="field">
+                    <label for="bio-lat">Latitude (optional)</label>
+                    <input class="input" id="bio-lat" name="latitude" type="number" step="any" min="-90" max="90" placeholder="20.2961" />
+                  </div>
+                  <div class="field">
+                    <label for="bio-lon">Longitude (optional)</label>
+                    <input class="input" id="bio-lon" name="longitude" type="number" step="any" min="-180" max="180" placeholder="85.8245" />
+                  </div>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="use-location" type="button" style="margin-bottom:16px">
+                  <i data-lucide="locate-fixed" aria-hidden="true"></i>Use my current location
+                </button>
+                <div class="field">
+                  <label for="bio-notes">Observer notes (optional)</label>
+                  <textarea class="textarea" id="bio-notes" name="notes" maxlength="2000"
+                    placeholder="Habitat, behaviour, nearby plants, anything a reviewer should know."></textarea>
+                </div>
+                <label class="checkbox" style="margin-bottom:16px">
+                  <input type="checkbox" id="bio-consent" />
+                  <span>I consent to storing this photo and observation as a pending, publicly visible record if I choose to save it. I understand it will be reviewed by a human.</span>
+                </label>
+                <button class="btn btn-primary btn-block btn-lg" id="analyse-btn" type="submit" disabled>
+                  <i data-lucide="scan-eye" aria-hidden="true"></i>Analyse image
+                </button>
+                <p class="tiny muted" style="margin:10px 0 0">
+                  Analysing does not save anything. You can delete a saved observation later from this browser.
+                </p>
+              </form>
+            </div>
+
+            <div class="bio-tips">
+              <div class="bio-tip"><i data-lucide="sun" aria-hidden="true"></i><span>Use daylight; avoid harsh flash and deep shadows.</span></div>
+              <div class="bio-tip"><i data-lucide="focus" aria-hidden="true"></i><span>Fill the frame with leaves, flowers, or the whole bird.</span></div>
+              <div class="bio-tip"><i data-lucide="move-3d" aria-hidden="true"></i><span>One subject per photo; avoid cluttered backgrounds.</span></div>
+              <div class="bio-tip"><i data-lucide="ban" aria-hidden="true"></i><span>Do not upload people, screenshots, or edited images.</span></div>
+            </div>
+          </div>
+
+          <div class="bio-result-panel">
+            <div class="panel" id="result-panel">
+              <div class="panel-head">
+                <div>
+                  <h3>2. Read the result</h3>
+                  <p>Quality checks, top candidates, decision and limitations.</p>
+                </div>
+              </div>
+              <div id="result-body">
+                <div class="state">
+                  <div class="state-icon"><i data-lucide="scan-line" aria-hidden="true"></i></div>
+                  <h3>No image analysed yet</h3>
+                  <p>Choose a plant or bird photo and press “Analyse image”. The result will explain what the model saw, how confident it is, and why it may be abstaining.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="margin-top:20px">
+              <div class="panel-head">
+                <div>
+                  <h3>How to read confidence</h3>
+                  <p>These labels are deliberately cautious.</p>
+                </div>
+              </div>
+              <div class="stack-sm">
+                <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>High for this model (≥ 80%)</strong> — clears the threshold, but still requires human confirmation.</span></div>
+                <div class="check-row warn"><i data-lucide="alert-triangle" aria-hidden="true"></i><span><strong>Moderate (55–79%)</strong> — plausible, but look-alike species remain possible.</span></div>
+                <div class="check-row bad"><i data-lucide="x-circle" aria-hidden="true"></i><span><strong>Low (&lt; 55%)</strong> — the app abstains and asks for review rather than auto-accepting.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Reference catalogue</span>
+            <h2>Species the demo model was trained to recognise</h2>
+            <p>Only these classes are in scope. Anything outside this list is out-of-distribution and should not be forced into a label.</p>
+          </div>
+          <div class="search-field" style="max-width:320px">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input class="input" id="species-search" type="search" placeholder="Search species" aria-label="Search species catalogue" />
+          </div>
+        </div>
+        <div class="row" style="margin-bottom:16px">
+          <div class="segmented" id="species-filter" role="group" aria-label="Filter species by category">
+            <button type="button" class="is-active" data-species-filter="all">All</button>
+            <button type="button" data-species-filter="plant">Plants</button>
+            <button type="button" data-species-filter="bird">Birds</button>
+          </div>
+          <span class="filter-count" id="species-count"></span>
+        </div>
+        <div class="species-grid" id="species-grid">
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/biodiversity.js"></script>
+</body>
+</html>

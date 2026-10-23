@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Database & runtime data
+data/*.db
+data/*.db-journal
+data/*.db-shm
+data/*.db-wal
+data/*.sqlite
+data/*.sqlite3
+data/uploads/*
+!data/uploads/.gitkeep
+data/cache/
+logs/
+
+# AI datasets (large, download separately — see docs/DATASETS.md)
+datasets/
+models/*.pt
+models/*.pth
+models/*.onnx
+models/**/checkpoint*.pt
+models/**/last.pt
+# Trained demo models and metrics are intentionally NOT ignored:
+!models/**/model_card.json
+!models/**/metrics.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (not required, but ignore if used for tooling)
+node_modules/

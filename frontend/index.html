@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BioTrace — Trustworthy biodiversity AI & Odisha discovery</title>
+  <meta name="description" content="BioTrace is an academic project combining uncertainty-aware plant and bird identification with a carefully sourced guide to Odisha's cultural and natural places." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Odisha · biodiversity + tourism</span>
+          <h1>Know what you're <em>looking at</em>.</h1>
+          <p class="lede">
+            A plant and bird identification assistant that says when it is unsure, paired with
+            an honest guide to Odisha's temples, museums, forests, beaches and living culture.
+          </p>
+          <form class="hero-search" id="hero-search" role="search">
+            <div class="search-field">
+              <i data-lucide="search" aria-hidden="true"></i>
+              <input class="input" id="hero-q" name="q" type="search" maxlength="120"
+                     placeholder="Search places, districts or categories" autocomplete="off"
+                     aria-label="Search Odisha destinations" />
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </form>
+          <div class="hero-search-hint">
+            <span>Try</span>
+            <button type="button" data-suggest="temple">temples</button>
+            <span>·</span>
+            <button type="button" data-suggest="beach">beaches</button>
+            <span>·</span>
+            <button type="button" data-suggest="wildlife">wildlife</button>
+            <span>·</span>
+            <button type="button" data-suggest="museum">museums</button>
+          </div>
+          <div class="hero-ctas">
+            <a class="btn btn-primary btn-lg" href="/biodiversity.html">
+              <i data-lucide="scan-eye" aria-hidden="true"></i>Identify a plant or bird
+            </a>
+            <a class="btn btn-secondary btn-lg" href="/tourism.html">
+              <i data-lucide="compass" aria-hidden="true"></i>Explore Odisha
+            </a>
+          </div>
+          <div class="hero-note">
+            <i data-lucide="shield-check" aria-hidden="true"></i>
+            <span>Uncertainty-aware AI · human review · no invented records or visitor details</span>
+          </div>
+        </div>
+        <div class="hero-visual" id="hero-visual">
+          <div class="hero-badge"><span class="live-dot"></span><span>Live project data</span></div>
+          <div class="hero-float one">
+            <span class="float-icon"><i data-lucide="leaf" aria-hidden="true"></i></span>
+            <span><strong id="float-species">Species catalogue</strong><span>curated reference list</span></span>
+          </div>
+          <div class="hero-float two">
+            <span class="float-icon"><i data-lucide="map-pin" aria-hidden="true"></i></span>
+            <span><strong id="float-districts">Odisha districts</strong><span>places in the explorer</span></span>
+          </div>
+          <div class="hero-float three">
+            <span class="float-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span>
+            <span><strong>Honest by design</strong><span>missing data stays missing</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="stat-strip reveal" id="home-stats">
+          <div class="stat">
+            <i data-lucide="map" class="stat-icon" aria-hidden="true"></i>
+            <div class="stat-value" data-count-to="0" id="stat-destinations">0</div>
+            <div class="stat-label">Places documented</div>
+            <div class="stat-note">Seed catalogue, not a complete list</div>
+          </div>
+          <div class="stat">
+            <i data-lucide="compass" class="stat-icon" aria-hidden="true"></i>
+            <div class="stat-value" data-count-to="0" id="stat-districts">0</div>
+            <div class="stat-label">Districts covered</div>
+            <div class="stat-note">From live database records</div>
+          </div>
+          <div class="stat">
+            <i data-lucide="leaf" class="stat-icon" aria-hidden="true"></i>
+            <div class="stat-value" data-count-to="0" id="stat-species">0</div>
+            <div class="stat-label">Species in catalogue</div>
+            <div class="stat-note">10 plants · 12 birds</div>
+          </div>
+          <div class="stat">
+            <i data-lucide="notebook-pen" class="stat-icon" aria-hidden="true"></i>
+            <div class="stat-value" data-count-to="0" id="stat-observations">0</div>
+            <div class="stat-label">Consented observations</div>
+            <div class="stat-note">Pending human review</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Two connected tools</span>
+            <h2>One project, two questions</h2>
+            <p>Can a small CPU model support careful biodiversity recording? And can a tourism guide be useful without inventing timings, prices or contacts?</p>
+          </div>
+        </div>
+        <div class="home-modules">
+          <a class="module-card bio reveal" href="/biodiversity.html">
+            <div class="module-badges">
+              <span class="module-badge">MobileNetV3 · CPU</span>
+              <span class="module-badge">Top-3 + abstention</span>
+            </div>
+            <div>
+              <div class="module-icon"><i data-lucide="scan-eye" aria-hidden="true"></i></div>
+              <span class="eyebrow">Biodiversity AI</span>
+              <h2>Identify a plant or bird</h2>
+              <p>Upload a photo. BioTrace checks image quality, returns its three best guesses, and explicitly abstains when the evidence is weak.</p>
+            </div>
+            <span class="module-link">Open the identification studio <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a class="module-card tourism reveal" href="/tourism.html">
+            <div class="module-badges">
+              <span class="module-badge">70 seed places</span>
+              <span class="module-badge">OSM coordinates</span>
+            </div>
+            <div>
+              <div class="module-icon"><i data-lucide="compass" aria-hidden="true"></i></div>
+              <span class="eyebrow">Tourism explorer</span>
+              <h2>Discover Odisha honestly</h2>
+              <p>Filter temples, mosques, churches, Buddhist and Jain sites, museums, forts, beaches, forests and parks. Missing visitor details are labelled, never guessed.</p>
+            </div>
+            <span class="module-link">Explore the catalogue <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Browse by interest</span>
+            <h2>What would you like to see?</h2>
+            <p>Category counts come from the live catalogue. Some categories are intentionally small because only sourced places are listed.</p>
+          </div>
+          <a class="btn btn-secondary" href="/tourism.html">All categories <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="home-categories" id="home-categories">
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Featured places</span>
+            <h2>Start with these</h2>
+            <p>Editorially featured records from the seed catalogue. Each detail page shows its provenance and what information is still missing.</p>
+          </div>
+          <a class="btn btn-secondary" href="/tourism.html?sort=featured">Browse all <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="grid grid-auto" id="featured-grid">
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container home-split">
+        <div>
+          <span class="eyebrow">Map preview</span>
+          <h2>Odisha at a glance</h2>
+          <p class="lede">Every pin is a place with coordinates checked against OpenStreetMap. Records without reliable coordinates are still documented but deliberately left off the map.</p>
+          <div class="stack-sm" style="margin:20px 0 24px">
+            <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>52 mapped places</strong> in the current seed catalogue</span></div>
+            <div class="check-row warn"><i data-lucide="alert-triangle" aria-hidden="true"></i><span><strong>18 records without pins</strong> — shown as “Location unavailable”, never approximated silently</span></div>
+            <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>Sensitive biodiversity records</strong> are obscured server-side before they reach the browser</span></div>
+          </div>
+          <a class="btn btn-primary" href="/map.html"><i data-lucide="map" aria-hidden="true"></i>Open the interactive map</a>
+        </div>
+        <div class="home-map-panel">
+          <div class="map-shell map-sm" id="home-map" aria-label="Map preview of featured Odisha destinations"></div>
+          <div class="home-map-foot">
+            <span class="small muted"><i data-lucide="database" aria-hidden="true" style="width:14px;height:14px;display:inline"></i> Tourism coordinates © OpenStreetMap contributors (ODbL)</span>
+            <a class="small strong" href="/map.html">Full map <i data-lucide="arrow-right" aria-hidden="true" style="width:14px;height:14px;display:inline"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Community observations</span>
+            <h2>Recently shared, still unverified</h2>
+            <p>These are consented observations submitted through BioTrace. They stay marked as pending until a human reviewer checks them.</p>
+          </div>
+          <a class="btn btn-secondary" href="/observations.html">View observations <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div id="recent-observations" class="stack">
+          <div class="skeleton skeleton-line w-60" aria-hidden="true"></div>
+          <div class="skeleton skeleton-line" aria-hidden="true"></div>
+          <div class="skeleton skeleton-line w-40" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">How trust is handled</span>
+            <h2>What the AI can and cannot tell you</h2>
+          </div>
+        </div>
+        <div class="conservation-grid">
+          <div class="conservation-card reveal">
+            <div class="cc-icon cc-green"><i data-lucide="gauge" aria-hidden="true"></i></div>
+            <h4>Confidence is not certainty</h4>
+            <p>A softmax score is the model's preference among the classes it was trained on. It is not the probability that the identification is correct, and it is not a conservation record.</p>
+          </div>
+          <div class="conservation-card reveal">
+            <div class="cc-icon cc-gold"><i data-lucide="octagon-alert" aria-hidden="true"></i></div>
+            <h4>It abstains on weak evidence</h4>
+            <p>Small, dark, blurry or out-of-distribution photos are rejected before classification. Close top-two scores and implausible locations trigger “needs review” instead of a confident answer.</p>
+          </div>
+          <div class="conservation-card reveal">
+            <div class="cc-icon cc-blue"><i data-lucide="map-pin-off" aria-hidden="true"></i></div>
+            <h4>Missing data stays missing</h4>
+            <p>Tourism timings, fees, contacts and accessibility notes are only shown when a source recorded them. Otherwise the page says “Not verified” and invites a sourced correction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="cta-band reveal">
+          <div>
+            <h2>Photograph something interesting?</h2>
+            <p>Run a quality-checked identification. You can keep the result without saving it, or consent to store it as a pending observation.</p>
+          </div>
+          <div class="row">
+            <a class="btn btn-primary btn-lg" href="/biodiversity.html"><i data-lucide="camera" aria-hidden="true"></i>Try the AI</a>
+            <a class="btn btn-secondary btn-lg" href="/about.html">Read the limitations</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/leaflet.js"></script>
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

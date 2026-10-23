@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Saved Places & Itineraries — BioTrace</title>
+  <meta name="description" content="Your saved Odisha places and personal travel itineraries. Saved items live in this browser session only." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>Saved places & trips</span>
+        </div>
+        <span class="eyebrow">Personal collection</span>
+        <h1>Your Odisha shortlist.</h1>
+        <p>
+          Saved places and itineraries are tied to an anonymous session in this browser. There is no
+          account and no cloud sync. Clearing browser data will remove access to them.
+        </p>
+        <div class="page-hero-actions">
+          <button class="btn btn-primary" id="new-trip" type="button"><i data-lucide="plus" aria-hidden="true"></i>Create an itinerary</button>
+          <a class="btn btn-secondary" href="/tourism.html"><i data-lucide="compass" aria-hidden="true"></i>Find places</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="saved-layout">
+          <div>
+            <div class="panel-head">
+              <div>
+                <h2 style="font-size:1.5rem;margin:0">Saved places</h2>
+                <p id="saved-count">Loading…</p>
+              </div>
+              <a class="btn btn-secondary btn-sm" href="/tourism.html">Add more</a>
+            </div>
+            <div class="grid grid-auto" id="saved-grid">
+              <div class="skeleton skeleton-card" aria-hidden="true"></div>
+              <div class="skeleton skeleton-card" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-head">
+              <div>
+                <h2 style="font-size:1.5rem;margin:0">Itineraries</h2>
+                <p>Ordered stops, manually planned.</p>
+              </div>
+            </div>
+            <div class="stack" id="trips-list">
+              <div class="skeleton skeleton-line" aria-hidden="true"></div>
+              <div class="skeleton skeleton-line w-60" aria-hidden="true"></div>
+            </div>
+            <div class="callout neutral" style="margin-top:20px">
+              <i data-lucide="info" aria-hidden="true"></i>
+              <div>BioTrace does not optimise routes, calculate travel times or guarantee opening hours. Use the plan as a checklist, then verify with each place.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/saved.js"></script>
+</body>
+</html>

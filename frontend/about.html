@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About the Project — BioTrace</title>
+  <meta name="description" content="BioTrace project overview: research question, architecture, data sources, model evaluation, ethics, privacy and known limitations." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="about-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>About the project</span>
+        </div>
+        <span class="eyebrow">Final-year B.Tech CSE (Data Science)</span>
+        <h1>Trust is a design constraint, not a slogan.</h1>
+        <p class="lede">
+          BioTrace explores whether a small, CPU-only AI system can support careful biodiversity
+          recording without overstating what it knows — and whether a tourism guide can remain
+          useful while refusing to invent visitor information.
+        </p>
+        <div class="row" style="margin-top:22px">
+          <a class="btn btn-primary" href="/biodiversity.html">Try the identification studio</a>
+          <a class="btn btn-secondary" href="#limitations">Read the limitations</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="stat-strip" id="about-stats">
+          <div class="stat"><div class="stat-value" id="about-destinations">—</div><div class="stat-label">Destinations</div><div class="stat-note">Live database count</div></div>
+          <div class="stat"><div class="stat-value" id="about-species">—</div><div class="stat-label">Species</div><div class="stat-note">Curated reference catalogue</div></div>
+          <div class="stat"><div class="stat-value" id="about-observations">—</div><div class="stat-label">Consented observations</div><div class="stat-note">Not the same as verified records</div></div>
+          <div class="stat"><div class="stat-value" id="about-districts">—</div><div class="stat-label">Districts covered</div><div class="stat-note">From recorded destinations</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="research">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <span class="eyebrow">Research question</span>
+            <h2>Can uncertainty-aware AI make citizen biodiversity data more trustworthy?</h2>
+            <p class="research-q">“Does an explicit abstention and image-quality stage reduce overconfident species labels compared with a plain top-1 classifier, without making the tool unusable?”</p>
+            <p class="muted">
+              The project does not claim to answer this with a large field study. It builds the artefact needed
+              to investigate it: a model with a validation-selected abstention threshold, quality gates,
+              geographic plausibility checks, a human review queue, and honest UI copy. The accompanying
+              evaluation reports top-1/top-3 accuracy and selective-prediction coverage on a held-out split
+              of a small demonstration dataset.
+            </p>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>What was built</h3><p>Four connected subsystems.</p></div></div>
+            <div class="timeline">
+              <div class="timeline-item"><h4>1 · Identification pipeline</h4><p>Upload validation, EXIF stripping, brightness/sharpness checks, MobileNetV3-small inference, temperature scaling, top-3 output and abstention.</p></div>
+              <div class="timeline-item"><h4>2 · Observation workflow</h4><p>Consent-gated storage, anonymous session ownership, sensitive-species coordinate obscuration, deletion, reporting and admin review.</p></div>
+              <div class="timeline-item"><h4>3 · Tourism catalogue</h4><p>70 seeded Odisha records across 14 categories, provenance fields, data-gap reporting, corrections and suggestions.</p></div>
+              <div class="timeline-item"><h4>4 · Discovery tools</h4><p>Search and filters, unified map, favourites, manually ordered itineraries and a reviewer console.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Architecture</span>
+            <h2>One FastAPI origin, no external services required at runtime</h2>
+            <p>The frontend is static HTML/CSS/JS served by the same FastAPI app. All libraries and fonts are vendored so the app works offline except for OpenStreetMap tiles.</p>
+          </div>
+        </div>
+        <div class="arch-diagram">
+          <div class="arch-layer"><strong>Client</strong><div class="arch-nodes"><span class="arch-node">HTML pages</span><span class="arch-node">CSS design system</span><span class="arch-node">Vanilla JS modules</span><span class="arch-node">Leaflet + OSM</span><span class="arch-node">Chart.js (vendored)</span></div></div>
+          <div class="arch-layer"><strong>API</strong><div class="arch-nodes"><span class="arch-node">FastAPI routers</span><span class="arch-node">Pydantic schemas</span><span class="arch-node">Rate limiting</span><span class="arch-node">Session hashing</span><span class="arch-node">Admin bearer tokens</span></div></div>
+          <div class="arch-layer"><strong>Domain services</strong><div class="arch-nodes"><span class="arch-node">Image quality</span><span class="arch-node">Model registry</span><span class="arch-node">Geo plausibility</span><span class="arch-node">Coordinate obscuration</span><span class="arch-node">Image storage</span></div></div>
+          <div class="arch-layer"><strong>Data</strong><div class="arch-nodes"><span class="arch-node">SQLAlchemy ORM</span><span class="arch-node">SQLite</span><span class="arch-node">JSONL seed catalogue</span><span class="arch-node">Species JSON</span><span class="arch-node">Local model checkpoints</span></div></div>
+          <div class="arch-layer"><strong>AI</strong><div class="arch-nodes"><span class="arch-node">PyTorch CPU</span><span class="arch-node">Torchvision MobileNetV3-small</span><span class="arch-node">Transfer learning</span><span class="arch-node">Temperature scaling</span><span class="arch-node">Selective prediction</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="datasets">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <span class="eyebrow">Data sources & licensing</span>
+            <h2>What is sourced, and what is curated</h2>
+            <div class="info-list">
+              <div class="info-row"><i data-lucide="map-pin" aria-hidden="true"></i><div class="info-key">Tourism coordinates</div><div class="info-val">OpenStreetMap / Photon geocoding, ODbL. 52 of 70 seed records have coordinates; the rest deliberately have no pin.</div></div>
+              <div class="info-row"><i data-lucide="book-open" aria-hidden="true"></i><div class="info-key">Tourism text</div><div class="info-val">Project-curated seed descriptions from public reference material. Provisional until a reviewer checks the source.</div></div>
+              <div class="info-row"><i data-lucide="leaf" aria-hidden="true"></i><div class="info-key">Species taxonomy</div><div class="info-val">Curated catalogue cross-checked against the GBIF backbone. Descriptions are project-written, CC BY-SA 4.0.</div></div>
+              <div class="info-row"><i data-lucide="image" aria-hidden="true"></i><div class="info-key">Species photographs</div><div class="info-val">Training images are recorded with source and licence in the model card and dataset manifest. No tourism photographs are used; category artwork is CSS + Lucide icons.</div></div>
+              <div class="info-row"><i data-lucide="map" aria-hidden="true"></i><div class="info-key">Basemap tiles</div><div class="info-val">OpenStreetMap standard tiles, © OpenStreetMap contributors, ODbL. Tile usage is for academic demonstration, not high-volume production.</div></div>
+            </div>
+          </div>
+          <div>
+            <span class="eyebrow">Reproducibility</span>
+            <h2>Run it locally</h2>
+            <div class="panel" style="background:var(--surface-2)">
+              <pre class="mono" style="white-space:pre-wrap;margin:0;font-size:.78rem;line-height:1.8">python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+python -m uvicorn backend.app.main:app --reload</pre>
+            </div>
+            <p class="small muted" style="margin-top:12px">Open <span class="mono">http://127.0.0.1:8000</span>. API docs at <a href="/docs" target="_blank" rel="noopener">/docs</a>. AI dependencies are separate so the web app runs without a 2 GB install.</p>
+            <div class="panel" style="margin-top:14px;background:var(--surface-2)">
+              <pre class="mono" style="white-space:pre-wrap;margin:0;font-size:.78rem;line-height:1.8">pip install -r requirements-ai.txt
+python -m backend.scripts.download_dataset
+python -m backend.scripts.train_classifier --category plant
+python -m backend.scripts.train_classifier --category bird
+python -m pytest</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="models">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Model card</span>
+            <h2>Installed models and measured performance</h2>
+            <p>These values are read live from the local model registry. If a model is not installed, BioTrace says so and returns an “unavailable” decision.</p>
+          </div>
+          <a class="btn btn-secondary btn-sm" href="/biodiversity.html">Try a prediction</a>
+        </div>
+        <div class="grid grid-2" id="model-cards">
+          <div class="panel"><div class="skeleton skeleton-line w-40"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line w-60"></div></div>
+          <div class="panel"><div class="skeleton skeleton-line w-40"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line w-60"></div></div>
+        </div>
+        <div class="callout warning" style="margin-top:18px">
+          <i data-lucide="alert-triangle" aria-hidden="true"></i>
+          <div>
+            <strong>Do not interpret model scores as field-validated accuracy.</strong>
+            The demonstration models cover a small, curated class list. They cannot identify every Odisha plant or bird,
+            and they may be confidently wrong on look-alikes, juveniles, hybrids, damaged specimens or out-of-distribution photos.
+            Metrics are only reported when a real held-out evaluation has been run.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="research">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <span class="eyebrow">Evaluation methodology</span>
+            <h2>What the numbers mean</h2>
+            <div class="stack-sm">
+              <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>Stratified split</strong> — training, validation and test sets are disjoint by image, with the class distribution reported.</span></div>
+              <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>Top-1 and top-3 accuracy</strong> — measured on the held-out test split, not on training data.</span></div>
+              <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>Selective prediction</strong> — coverage and accuracy above the abstention threshold are reported together, so a high threshold cannot hide low coverage.</span></div>
+              <div class="check-row ok"><i data-lucide="check-circle-2" aria-hidden="true"></i><span><strong>Calibration</strong> — validation-set temperature scaling is applied and the fitted temperature is stored in the model card.</span></div>
+              <div class="check-row warn"><i data-lucide="alert-triangle" aria-hidden="true"></i><span><strong>Known gap</strong> — the demo dataset is small and not a substitute for a field survey or expert-curated regional dataset.</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Decision policy</h3><p>How a prediction becomes a decision.</p></div></div>
+            <div class="timeline">
+              <div class="timeline-item"><h4>1 · Quality gate</h4><p>Reject images below minimum resolution, extremely dark or too blurry. No prediction is attempted.</p></div>
+              <div class="timeline-item"><h4>2 · Model availability</h4><p>If no checkpoint exists, return “unavailable” with installation instructions. Never substitute a fake label.</p></div>
+              <div class="timeline-item"><h4>3 · Confidence threshold</h4><p>If top confidence is below the validation-selected threshold, return “review” and explain why.</p></div>
+              <div class="timeline-item"><h4>4 · Margin and geography</h4><p>A very small top-two margin or an implausible district also triggers “review”, even if confidence is high.</p></div>
+              <div class="timeline-item"><h4>5 · Human confirmation</h4><p>Accepted predictions remain preliminary. Saved observations start as pending and require reviewer action.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="ethics">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Ethics & privacy</span>
+            <h2>Small data, clear boundaries</h2>
+          </div>
+        </div>
+        <div class="conservation-grid">
+          <div class="conservation-card"><div class="cc-icon cc-green"><i data-lucide="user-x" aria-hidden="true"></i></div><h4>No accounts, no tracking</h4><p>The app uses an anonymous browser session identifier, hashed server-side. There are no analytics scripts, advertising pixels or third-party trackers.</p></div>
+          <div class="conservation-card"><div class="cc-icon cc-gold"><i data-lucide="shield" aria-hidden="true"></i></div><h4>Sensitive species</h4><p>Species with an endangered or vulnerable status are flagged, and their coordinates are obscured before being returned to any client or map.</p></div>
+          <div class="conservation-card"><div class="cc-icon cc-blue"><i data-lucide="image-off" aria-hidden="true"></i></div><h4>Image handling</h4><p>Uploads are re-encoded, EXIF metadata is stripped, and files are stored locally. Observation images are served read-only. Users can delete their own records.</p></div>
+          <div class="conservation-card"><div class="cc-icon cc-green"><i data-lucide="scale" aria-hidden="true"></i></div><h4>Consent first</h4><p>Prediction works without saving. Saving requires explicit consent, and the UI explains that the record becomes publicly visible as pending.</p></div>
+          <div class="conservation-card"><div class="cc-icon cc-gold"><i data-lucide="badge-alert" aria-hidden="true"></i></div><h4>No fabricated tourism facts</h4><p>Hours, fees, contacts and accessibility are shown only when recorded. Otherwise the interface says “Not verified — information unavailable”.</p></div>
+          <div class="conservation-card"><div class="cc-icon cc-blue"><i data-lucide="lock" aria-hidden="true"></i></div><h4>Admin separation</h4><p>The reviewer console uses environment-configured credentials and short-lived signed bearer tokens. Public users cannot change verification status.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="limitations">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <span class="eyebrow">Known limitations</span>
+            <h2>What this project does not do</h2>
+            <ul class="small muted" style="line-height:2;padding-left:20px">
+              <li>It is not a complete catalogue of Odisha tourism; 70 seed records are a demonstration subset.</li>
+              <li>It does not provide live opening hours, ticket prices, contacts or route planning.</li>
+              <li>It does not verify AI predictions automatically. Every saved observation needs human review.</li>
+              <li>It does not cover all Odisha flora and avifauna; only the classes in the model card are in scope.</li>
+              <li>It does not replace expert taxonomic identification, especially for cryptic or look-alike species.</li>
+              <li>It does not use user accounts, cloud sync or multi-device persistence.</li>
+              <li>It is not hardened for public internet deployment without additional security review.</li>
+              <li>The SQLite database and local file storage are suitable for a demo, not high concurrency.</li>
+            </ul>
+          </div>
+          <div>
+            <span class="eyebrow">Future work</span>
+            <h2>How the project could grow</h2>
+            <div class="stack-sm">
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>Field evaluation with botany and ornithology reviewers, including inter-rater agreement.</span></div>
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>A larger, regionally balanced dataset with explicit geographic and seasonal splits.</span></div>
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>Out-of-distribution detection rather than relying only on softmax confidence.</span></div>
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>Optional expert accounts with auditable review history and role-based permissions.</span></div>
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>Tourism data ingestion from official district and ASI sources with scheduled re-verification.</span></div>
+              <div class="check-row"><i data-lucide="arrow-right" aria-hidden="true"></i><span>Accessibility audit of the interface with screen-reader and keyboard-only users.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>See the honest failure modes for yourself.</h2>
+            <p>Upload a photo outside the training classes, or open a tourism record with missing visitor details. The interface should tell you what it does not know.</p>
+          </div>
+          <div class="row">
+            <a class="btn btn-primary btn-lg" href="/biodiversity.html">Try the AI</a>
+            <a class="btn btn-secondary btn-lg" href="/tourism.html">Browse places</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/about.js"></script>
+</body>
+</html>

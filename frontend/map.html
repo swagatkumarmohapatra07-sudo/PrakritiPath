@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Map — BioTrace</title>
+  <meta name="description" content="Explore Odisha tourism destinations and consented biodiversity observations on one map. Sensitive records are shown at reduced precision." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/vendor/leaflet.css" />
+  <link rel="stylesheet" href="/vendor/MarkerCluster.css" />
+  <link rel="stylesheet" href="/vendor/MarkerCluster.Default.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <div class="map-page">
+      <div class="map-page-body">
+        <aside class="map-sidebar" aria-label="Map filters and visible records">
+          <div class="map-sidebar-head">
+            <h1>Interactive map</h1>
+            <p>Tourism pins and consented biodiversity observations. Sensitive locations are obscured before they reach this page.</p>
+          </div>
+          <div class="map-sidebar-body">
+            <div class="layer-switch" id="layer-switch" role="group" aria-label="Map layers">
+              <button type="button" data-layer="tourism" aria-pressed="false"><i data-lucide="landmark" aria-hidden="true"></i>Tourism</button>
+              <button type="button" data-layer="biodiversity" aria-pressed="false"><i data-lucide="leaf" aria-hidden="true"></i>Biodiversity</button>
+              <button type="button" class="is-active" data-layer="combined" aria-pressed="true"><i data-lucide="layers" aria-hidden="true"></i>Both</button>
+            </div>
+
+            <div class="field">
+              <label for="map-search">Filter loaded pins</label>
+              <div class="search-field">
+                <i data-lucide="search" aria-hidden="true"></i>
+                <input class="input" id="map-search" type="search" placeholder="Name or label" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="map-district">District</label>
+              <select class="select" id="map-district">
+                <option value="">All districts</option>
+              </select>
+            </div>
+
+            <div class="filter-group" style="border-top:1px solid var(--line);padding-top:12px">
+              <h4>Category</h4>
+              <div class="row" id="map-categories" style="gap:6px">
+                <span class="skeleton skeleton-line" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="filter-group" style="border-top:1px solid var(--line);padding-top:12px">
+              <h4>Observation status</h4>
+              <select class="select" id="map-status">
+                <option value="">Any status</option>
+                <option value="pending">Pending review</option>
+                <option value="verified">Human verified</option>
+                <option value="needs_review">Needs review</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+
+            <div class="filter-group" style="border-top:1px solid var(--line);padding-top:12px">
+              <h4>Observation dates</h4>
+              <div class="grid grid-2" style="gap:8px">
+                <div class="field" style="margin:0">
+                  <label for="map-start" class="tiny">From</label>
+                  <input class="input" id="map-start" type="date" />
+                </div>
+                <div class="field" style="margin:0">
+                  <label for="map-end" class="tiny">To</label>
+                  <input class="input" id="map-end" type="date" />
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-ghost btn-sm" id="map-clear" type="button" style="margin:6px 0 12px">
+              <i data-lucide="rotate-ccw" aria-hidden="true"></i>Reset filters
+            </button>
+
+            <div class="row-between" style="margin-bottom:6px">
+              <h4 style="margin:0">Visible records</h4>
+              <span class="filter-count" id="map-count">Loading…</span>
+            </div>
+            <div id="map-list" class="map-list">
+              <div class="skeleton skeleton-line" aria-hidden="true"></div>
+              <div class="skeleton skeleton-line w-60" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="map-sidebar-foot">
+            <div id="map-notes">Loading map data…</div>
+            <div style="margin-top:6px">© OpenStreetMap contributors (ODbL)</div>
+          </div>
+        </aside>
+
+        <div class="map-main">
+          <div class="map-shell" id="unified-map" aria-label="Unified map of Odisha tourism and biodiversity records"></div>
+          <div class="map-toolbar map-overlay" style="top:14px;left:14px;right:14px;border-radius:14px;padding:10px">
+            <div class="search-field" style="flex:1;min-width:180px">
+              <i data-lucide="search" aria-hidden="true"></i>
+              <input class="input" id="map-toolbar-search" type="search" placeholder="Search the map" aria-label="Search map records" />
+            </div>
+            <button class="btn btn-secondary btn-sm" id="map-fit" type="button"><i data-lucide="maximize" aria-hidden="true"></i>Fit</button>
+            <button class="btn btn-secondary btn-sm" id="map-locate" type="button"><i data-lucide="locate-fixed" aria-hidden="true"></i>My location</button>
+          </div>
+          <div class="map-overlay map-legend" style="left:14px;bottom:14px">
+            <h4>Legend</h4>
+            <div class="legend-row"><span class="legend-dot tourism"></span>Tourism destination</div>
+            <div class="legend-row"><span class="legend-dot plant"></span>Plant observation</div>
+            <div class="legend-row"><span class="legend-dot bird"></span>Bird observation</div>
+            <div class="legend-row"><span class="legend-dot pending"></span>Pending / needs review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/leaflet.js"></script>
+  <script src="/vendor/leaflet.markercluster.js"></script>
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/map.js"></script>
+</body>
+</html>

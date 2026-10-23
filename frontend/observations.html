@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Biodiversity Observations — BioTrace</title>
+  <meta name="description" content="Consented plant and bird observations submitted through BioTrace, with verification status and privacy notes." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>Observations</span>
+        </div>
+        <span class="eyebrow">Community records</span>
+        <h1>Observations, with their status visible.</h1>
+        <p>
+          Every submitted record starts as <strong>pending</strong>. A human reviewer can verify it, reject it
+          or ask for more evidence. AI confidence is shown for transparency but is never treated as verification.
+        </p>
+        <div class="page-hero-actions">
+          <a class="btn btn-primary" href="/biodiversity.html"><i data-lucide="camera" aria-hidden="true"></i>Add an observation</a>
+          <a class="btn btn-secondary" href="/map.html?layers=biodiversity"><i data-lucide="map" aria-hidden="true"></i>See them on the map</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="row-between" style="margin-bottom:18px">
+          <div class="segmented" id="scope-switch" role="group" aria-label="Observation scope">
+            <button type="button" class="is-active" data-scope="mine" aria-pressed="true"><i data-lucide="user" aria-hidden="true"></i>My observations</button>
+            <button type="button" data-scope="all" aria-pressed="false"><i data-lucide="users" aria-hidden="true"></i>All consented</button>
+          </div>
+          <span class="filter-count" id="obs-count">Loading…</span>
+        </div>
+
+        <div class="filter-bar" style="margin-bottom:20px">
+          <div class="field" style="margin:0;flex:1;min-width:160px">
+            <label for="obs-category" class="tiny">Category</label>
+            <select class="select" id="obs-category">
+              <option value="">All categories</option>
+              <option value="plant">Plants</option>
+              <option value="bird">Birds</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0;flex:1;min-width:160px">
+            <label for="obs-status" class="tiny">Review status</label>
+            <select class="select" id="obs-status">
+              <option value="">Any status</option>
+              <option value="pending">Pending</option>
+              <option value="verified">Verified</option>
+              <option value="needs_review">Needs review</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0;flex:1;min-width:160px">
+            <label for="obs-district" class="tiny">District</label>
+            <select class="select" id="obs-district">
+              <option value="">All districts</option>
+            </select>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="obs-reset" type="button" style="margin-top:18px"><i data-lucide="rotate-ccw" aria-hidden="true"></i>Reset</button>
+        </div>
+
+        <div class="callout info" id="scope-note" style="margin-bottom:20px">
+          <i data-lucide="info" aria-hidden="true"></i>
+          <div>Showing records submitted from this browser session. Other visitors cannot delete them. “All consented” shows public records from every visitor.</div>
+        </div>
+
+        <div class="stack" id="obs-list">
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+          <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        </div>
+        <div class="pagination" id="obs-pagination"></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/observations.js"></script>
+</body>
+</html>

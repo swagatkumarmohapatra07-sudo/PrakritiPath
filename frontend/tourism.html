@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tourism Explorer — BioTrace</title>
+  <meta name="description" content="Explore sourced Odisha destinations: temples, mosques, churches, Buddhist and Jain sites, museums, monuments, forts, beaches, wildlife and parks. Missing visitor details are labelled, never guessed." />
+  <meta name="theme-color" content="#0f3d2e" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/vendor/leaflet.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="/">Home</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>Tourism Explorer</span>
+        </div>
+        <span class="eyebrow">Odisha discovery</span>
+        <h1>Places worth the journey.</h1>
+        <p>
+          A curated seed catalogue of Odisha's religious sites, museums, monuments, forts, beaches,
+          forests and parks. Every record states its verification status and data gaps. Nothing is
+          invented to make a listing look complete.
+        </p>
+        <div class="page-hero-actions">
+          <button class="btn btn-primary" id="suggest-place" type="button"><i data-lucide="map-pin-plus" aria-hidden="true"></i>Suggest a place</button>
+          <a class="btn btn-secondary" href="/map.html"><i data-lucide="map" aria-hidden="true"></i>Open full map</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="tourism-layout">
+          <aside class="filter-sidebar" id="filter-sidebar" aria-label="Destination filters">
+            <div class="filter-head">
+              <h3>Filters</h3>
+              <button class="btn btn-ghost btn-sm" id="clear-filters" type="button">Clear all</button>
+            </div>
+            <div class="filter-group">
+              <div class="field" style="margin-bottom:0">
+                <label for="filter-q">Search</label>
+                <div class="search-field">
+                  <i data-lucide="search" aria-hidden="true"></i>
+                  <input class="input" id="filter-q" type="search" maxlength="120" placeholder="Name, city, keyword" />
+                </div>
+              </div>
+            </div>
+            <div class="filter-group">
+              <div class="field" style="margin-bottom:0">
+                <label for="filter-district">District</label>
+                <select class="select" id="filter-district">
+                  <option value="">All districts</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-group">
+              <h4>Category</h4>
+              <div id="filter-categories">
+                <div class="skeleton skeleton-line" aria-hidden="true"></div>
+                <div class="skeleton skeleton-line w-60" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="filter-group">
+              <div class="field" style="margin-bottom:0">
+                <label for="filter-facility">Facility contains</label>
+                <select class="select" id="filter-facility">
+                  <option value="">Any facility</option>
+                  <option value="parking">Parking</option>
+                  <option value="toilet">Toilets</option>
+                  <option value="water">Drinking water</option>
+                  <option value="wheelchair">Wheelchair access</option>
+                  <option value="guide">Guided tours</option>
+                  <option value="cafe">Cafe / food</option>
+                  <option value="shop">Shop</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label class="switch" style="margin-bottom:10px">
+                <input type="checkbox" id="filter-accessible" />
+                <span class="switch-track"></span>
+                <span>Accessibility recorded</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="filter-coords" />
+                <span class="switch-track"></span>
+                <span>Has map coordinates</span>
+              </label>
+            </div>
+            <div class="filter-group">
+              <div class="callout neutral" style="font-size:.75rem">
+                <i data-lucide="info" aria-hidden="true"></i>
+                <div>Filters only narrow the catalogue. A missing result does not mean a place is unimportant — it may not be in the seed data yet.</div>
+              </div>
+            </div>
+          </aside>
+
+          <div>
+            <div class="tourism-toolbar">
+              <div class="search-field" style="max-width:420px">
+                <i data-lucide="search" aria-hidden="true"></i>
+                <input class="input" id="toolbar-q" type="search" maxlength="120" placeholder="Search the catalogue" aria-label="Search destinations" />
+              </div>
+              <div class="row" style="gap:8px">
+                <button class="btn btn-secondary btn-sm mobile-filter-btn" id="mobile-filter" type="button">
+                  <i data-lucide="sliders-horizontal" aria-hidden="true"></i>Filters
+                </button>
+                <button class="btn btn-secondary btn-sm" id="near-me" type="button">
+                  <i data-lucide="locate-fixed" aria-hidden="true"></i>Near me
+                </button>
+                <select class="select" id="sort-select" aria-label="Sort destinations" style="width:auto;padding-block:9px;font-size:.82rem">
+                  <option value="featured">Featured first</option>
+                  <option value="name">Name A–Z</option>
+                  <option value="district">District</option>
+                  <option value="newest">Newest</option>
+                </select>
+                <div class="pill-group" id="view-switch" role="group" aria-label="Results view">
+                  <button type="button" class="is-active" data-view="grid" aria-pressed="true"><i data-lucide="layout-grid" aria-hidden="true"></i>Grid</button>
+                  <button type="button" data-view="map" aria-pressed="false"><i data-lucide="map" aria-hidden="true"></i>Map</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row-between" style="margin-bottom:14px">
+              <span class="filter-count" id="results-count">Loading destinations…</span>
+              <span class="tiny muted" id="results-note">Records are provisional unless marked verified.</span>
+            </div>
+            <div class="active-filters" id="active-filters"></div>
+
+            <div id="grid-view">
+              <div class="grid grid-auto tourism-results" id="tourism-results">
+                <div class="skeleton skeleton-card" aria-hidden="true"></div>
+                <div class="skeleton skeleton-card" aria-hidden="true"></div>
+                <div class="skeleton skeleton-card" aria-hidden="true"></div>
+              </div>
+              <div id="tourism-pagination" class="pagination"></div>
+            </div>
+
+            <div id="map-view" class="hidden">
+              <div class="map-shell map-lg" id="tourism-map" aria-label="Map of filtered tourism destinations"></div>
+              <div class="callout neutral" style="margin-top:12px">
+                <i data-lucide="info" aria-hidden="true"></i>
+                <div id="map-note">Pins come from coordinates checked against OpenStreetMap. Places without reliable coordinates are not shown here but remain in the grid view.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="/vendor/leaflet.js"></script>
+  <script src="/vendor/leaflet.markercluster.js"></script>
+  <script src="/vendor/lucide.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/tourism.js"></script>
+</body>
+</html>
