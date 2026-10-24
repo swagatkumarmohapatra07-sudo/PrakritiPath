@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace shared utilities: API client, session, DOM, toasts, modals.
+   My Utkal Heritage shared utilities: API client, session, DOM, toasts, modals.
    Everything is attached to window.BT so plain <script> pages can share it.
    ========================================================================== */
 (function () {
@@ -87,7 +87,7 @@
         );
       }
       throw new ApiError(
-        "Could not reach the BioTrace server. Make sure it is running and open the app from its server URL.",
+        "Could not reach the My Utkal Heritage server. Make sure it is running and open the app from its server URL.",
         0
       );
     }

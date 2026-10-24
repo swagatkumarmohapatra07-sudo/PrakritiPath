@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — unified interactive map
+   My Utkal Heritage — unified interactive map
    ========================================================================== */
 (function () {
   "use strict";

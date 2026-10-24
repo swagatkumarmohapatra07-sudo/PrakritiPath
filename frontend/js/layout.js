@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — shared header/footer layout and global behaviours
+   My Utkal Heritage — shared header/footer layout and global behaviours
    ========================================================================== */
 (function () {
   "use strict";
@@ -27,6 +27,44 @@
     <circle cx="16" cy="16" r="3.7" fill="currentColor"/>
     <path d="M16 13.2c2 .7 3.2 2 3.2 3.6 0 1.5-1.1 2.7-3.2 3.1-2.1-.4-3.2-1.6-3.2-3.1 0-1.6 1.2-2.9 3.2-3.6Z" fill="#fff8e9" opacity=".94"/>
   </svg>`;
+
+  const ODIA_NAME = "ମୋ ଉତ୍କଳ ଐତିହ୍ୟ";
+  const SLOGAN = "Discover Our Roots. Explore Our Treasures.";
+
+  // The loader is a full-screen brand moment built around the Konark wheel.
+  function mountLoader() {
+    if (!document.body || document.getElementById("bt-loader")) return;
+    const loader = document.createElement("div");
+    loader.id = "bt-loader";
+    loader.className = "bt-loader";
+    loader.setAttribute("role", "status");
+    loader.setAttribute("aria-live", "polite");
+    loader.setAttribute("aria-label", "Loading My Utkal Heritage");
+    loader.innerHTML = `
+      <div class="bt-loader-inner">
+        <div class="bt-loader-wheel">${LOGO}</div>
+        <div class="bt-loader-word">My Utkal Heritage</div>
+        <div class="bt-loader-sub" lang="or">${ODIA_NAME}</div>
+        <div class="bt-loader-slogan">${SLOGAN}</div>
+        <div class="bt-loader-bar" aria-hidden="true"><span></span></div>
+      </div>`;
+    document.body.appendChild(loader);
+    document.body.classList.add("is-loading");
+    let done = false;
+    const hide = () => {
+      if (done) return;
+      done = true;
+      loader.classList.add("is-done");
+      document.body.classList.remove("is-loading");
+      window.setTimeout(() => loader.remove(), 700);
+    };
+    if (document.readyState === "complete") {
+      window.setTimeout(hide, 350);
+    } else {
+      window.addEventListener("load", () => window.setTimeout(hide, 450), { once: true });
+    }
+    window.setTimeout(hide, 6000);
+  }
 
   function currentPath() {
     let path = location.pathname;
@@ -57,11 +95,11 @@
     host.innerHTML = `
       <a class="skip-link" href="#main">Skip to main content</a>
       <div class="container nav">
-        <a class="brand" href="/" aria-label="BioTrace home">
+        <a class="brand" href="/" aria-label="My Utkal Heritage — home">
           <span class="brand-mark">${LOGO}</span>
           <span class="brand-text">
-            <span class="brand-name">BioTrace</span>
-            <span class="brand-tag">Odisha · Culture &amp; Nature</span>
+            <span class="brand-name">My Utkal Heritage</span>
+            <span class="brand-tag brand-odia" lang="or">${ODIA_NAME}</span>
           </span>
         </a>
         <nav aria-label="Primary navigation">
@@ -104,10 +142,11 @@
             <a class="brand" href="/">
               <span class="brand-mark">${LOGO}</span>
               <span class="brand-text">
-                <span class="brand-name">BioTrace</span>
-                <span class="brand-tag">Odisha · Culture, Biodiversity &amp; Tourism</span>
+                <span class="brand-name">My Utkal Heritage</span>
+                <span class="brand-tag brand-odia" lang="or">${ODIA_NAME}</span>
               </span>
             </a>
+            <p class="footer-slogan" lang="en">${SLOGAN}</p>
             <p class="footer-about">
               A final-year B.Tech CSE (Data Science) project exploring whether
               uncertainty-aware AI and observation-quality checks can produce more
@@ -151,7 +190,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <span>© ${new Date().getFullYear()} BioTrace · Academic project, Odisha, India.</span>
+          <span>© ${new Date().getFullYear()} My Utkal Heritage · Academic project, Odisha, India.</span>
           <span class="footer-badge">${BT.icon("database")}Tourism coordinates © OpenStreetMap contributors (ODbL)</span>
           <span class="footer-badge">${BT.icon("cpu")}CPU-only · free & open source</span>
         </div>
@@ -235,7 +274,7 @@
       if (event.key === "Escape") close();
     });
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 1080) close();
+      if (window.innerWidth > 1240) close();
     });
   }
 
@@ -316,6 +355,8 @@
 
   BT.observeReveal = setupReveal;
   BT.observeCounters = setupCounters;
+
+  mountLoader();
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", BT.initLayout);

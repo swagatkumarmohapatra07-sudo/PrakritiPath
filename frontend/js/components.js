@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — shared UI components: destination cards, favourites, reports,
+   My Utkal Heritage — shared UI components: destination cards, favourites, reports,
    observation cards, trip planner modal and comparison.
    ========================================================================== */
 (function () {
@@ -170,7 +170,7 @@
       </div>`;
     const modal = BT.modal({
       title: title || "Report a problem",
-      subtitle: "Help keep BioTrace accurate.",
+      subtitle: "Help keep My Utkal Heritage accurate.",
       body,
       footer: `<button class="btn btn-secondary" data-close type="button">Cancel</button>
                <button class="btn btn-primary" id="report-submit" type="button">Submit report</button>`,
@@ -215,7 +215,7 @@
       .join("");
     const body = `
       <div class="callout info" style="margin-bottom:16px">${BT.icon("route")}
-        <div>Stops are ordered manually. BioTrace does not optimise routes or provide live travel times.</div>
+        <div>Stops are ordered manually. My Utkal Heritage does not optimise routes or provide live travel times.</div>
       </div>
       ${
         itineraries.length
@@ -458,7 +458,7 @@
         </div>`
       : `<div class="callout neutral">${BT.icon("image-off")}<div>
           <strong>No freely licensed reference photograph is stored for this species.</strong>
-          The catalogue still records the description and distribution, but BioTrace will not substitute an
+          The catalogue still records the description and distribution, but My Utkal Heritage will not substitute an
           unrelated image. The sources below may have photographs.
         </div></div>`;
 
@@ -593,7 +593,7 @@
         }
         <div class="callout neutral" style="margin-top:16px">${BT.icon("shield-check")}
           <div><strong>How to cite this record.</strong> It is a consented community observation submitted through
-          BioTrace, not a museum specimen. Check the review status before reusing it in research.</div>
+          My Utkal Heritage, not a museum specimen. Check the review status before reusing it in research.</div>
         </div>
       </div>`;
     const modal = BT.modal({

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — itinerary editor
+   My Utkal Heritage — itinerary editor
    ========================================================================== */
 (function () {
   "use strict";
@@ -402,7 +402,7 @@
   async function loadTrip(id) {
     try {
       trip = await BT.api(`/api/itineraries/${id}`);
-      document.title = `${trip.title} — BioTrace itinerary`;
+      document.title = `${trip.title} — My Utkal Heritage itinerary`;
       render();
     } catch (err) {
       document.getElementById("trip-root").innerHTML = `<div class="state error" style="margin:60px auto">

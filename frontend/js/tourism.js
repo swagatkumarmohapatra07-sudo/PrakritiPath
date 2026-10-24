@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — tourism explorer
+   My Utkal Heritage — tourism explorer
    ========================================================================== */
 (function () {
   "use strict";
@@ -301,7 +301,7 @@
     } catch (err) {
       host.innerHTML = BT.emptyState(
         "The catalogue could not load",
-        "Check that the BioTrace server is running, then try again.",
+        "Check that the My Utkal Heritage server is running, then try again.",
         "cloud-off",
         `<button class="btn btn-secondary" id="retry-results" type="button">Try again</button>`
       );

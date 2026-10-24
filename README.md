@@ -1,4 +1,4 @@
-# PrakritiPath (BioTrace)
+# PrakritiPath (My Utkal Heritage)
 
 Uncertainty-aware biodiversity identification and Odisha tourism discovery, built as a
 single FastAPI backend that also serves a static HTML/CSS/JS frontend.
@@ -130,7 +130,7 @@ favourites and itineraries, admin auth/review flows, geo helpers and seed-data i
 | `docs/LIMITATIONS.md` | Scientific, data, privacy and operational limits |
 | `backend/scripts/import_tourism.py` | Import/geocode `tourism_seed_*.jsonl` |
 | `backend/scripts/fetch_images.py` | Fetch credited Wikimedia Commons photos per place |
-| `backend/scripts/train_classifier.py` | Train a MobileNetV3 classifier for BioTrace |
+| `backend/scripts/train_classifier.py` | Train a MobileNetV3 classifier for My Utkal Heritage |
 | `backend/scripts/evaluate.py` | Score the image-quality heuristics on a labelled probe set |
 | `backend/scripts/migrate.py` | Schema drift check and Alembic bootstrap |
 

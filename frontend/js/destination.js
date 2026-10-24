@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — destination detail page
+   My Utkal Heritage — destination detail page
    ========================================================================== */
 (function () {
   "use strict";
@@ -141,7 +141,7 @@
           ${infoRow("concierge-bell", "Facilities", dest.facilities)}
         </div>
         <p class="tiny muted" style="margin:14px 0 0">
-          ${BT.icon("info")} Fields marked “Not verified” were absent from the source record. BioTrace does not fill them with guesses. If you know a sourced correction, use the correction form.
+          ${BT.icon("info")} Fields marked “Not verified” were absent from the source record. My Utkal Heritage does not fill them with guesses. If you know a sourced correction, use the correction form.
         </p>
       </div>
 
@@ -182,7 +182,7 @@
           Descriptive text and project-curated metadata are academic seed data and should be independently verified before publication or travel decisions.
         </p>
         <h3 style="margin:18px 0 6px;font-size:1rem">Sources to learn more</h3>
-        <p class="tiny muted" style="margin:0 0 8px">These are external search pages, not records verified by BioTrace. Read them alongside the provenance above.</p>
+        <p class="tiny muted" style="margin:0 0 8px">These are external search pages, not records verified by My Utkal Heritage. Read them alongside the provenance above.</p>
         ${sourceLinks(dest)}
       </div>`;
   }
@@ -243,7 +243,7 @@
           <button class="btn btn-primary btn-block" id="trip-dest-2" type="button">${BT.icon("route")}Add to itinerary</button>
           <button class="btn btn-secondary btn-block" id="save-dest-2" type="button">${BT.icon("heart")}Save place</button>
         </div>
-        <p class="tiny muted" style="margin:12px 0 0">Opening hours, fees and travel times can change. Verify with the destination before travelling. BioTrace does not provide live traffic or route optimisation.</p>
+        <p class="tiny muted" style="margin:12px 0 0">Opening hours, fees and travel times can change. Verify with the destination before travelling. My Utkal Heritage does not provide live traffic or route optimisation.</p>
       </div>`;
   }
 
@@ -469,7 +469,7 @@
       await BT.loadTaxonomy();
       await BT.loadFavourites();
       destination = await BT.api(`/api/tourism/destinations/${encodeURIComponent(identifier)}`);
-      document.title = `${destination.name} — BioTrace`;
+      document.title = `${destination.name} — My Utkal Heritage`;
       const description = document.querySelector('meta[name="description"]');
       if (description) description.setAttribute("content", `${destination.name}, ${destination.district || "Odisha"} — sourced visitor information, provenance and data gaps.`);
       const root = document.getElementById("destination-root");

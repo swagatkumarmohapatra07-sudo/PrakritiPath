@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — saved places and itinerary index
+   My Utkal Heritage — saved places and itinerary index
    ========================================================================== */
 (function () {
   "use strict";

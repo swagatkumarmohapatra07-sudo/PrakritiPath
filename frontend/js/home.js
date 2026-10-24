@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — landing page
+   My Utkal Heritage — landing page
    ========================================================================== */
 (function () {
   "use strict";
@@ -186,7 +186,7 @@
       if (featured) {
         featured.innerHTML = BT.emptyState(
           "The catalogue could not load",
-          "The BioTrace server may still be starting. Check that it is running, then reload the page.",
+          "The My Utkal Heritage server may still be starting. Check that it is running, then reload the page.",
           "cloud-off",
           `<a class="btn btn-secondary" href="/">Reload</a>`
         );

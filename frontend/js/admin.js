@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — reviewer console
+   My Utkal Heritage — reviewer console
    Authenticates against /api/admin/login, keeps the signed bearer token in
    sessionStorage, and drives observation/destination/report review.
    ========================================================================== */

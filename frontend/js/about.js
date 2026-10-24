@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — about page
+   My Utkal Heritage — about page
    Populates live database counts and the real model registry status.
    Nothing on this page may be hard-coded as a performance claim.
    ========================================================================== */
@@ -82,7 +82,7 @@
           ${BT.icon("alert-triangle")}
           <div>
             <strong>Identification is unavailable for this category.</strong>
-            <p class="small" style="margin:6px 0 0">${BT.esc(reason)} BioTrace returns an
+            <p class="small" style="margin:6px 0 0">${BT.esc(reason)} My Utkal Heritage returns an
             “unavailable” decision instead of inventing a label. No accuracy figure is shown
             because no real evaluation exists for this checkpoint.</p>
           </div>

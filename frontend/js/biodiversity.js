@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BioTrace — biodiversity identification studio
+   My Utkal Heritage — biodiversity identification studio
    ========================================================================== */
 (function () {
   "use strict";
@@ -26,7 +26,7 @@
     },
     review: {
       icon: "alert-triangle",
-      title: "BioTrace is abstaining — human review needed",
+      title: "My Utkal Heritage is abstaining — human review needed",
       body: "The evidence is ambiguous, the image has quality flags, or the location conflicts with the curated range.",
     },
     reject: {
@@ -37,7 +37,7 @@
     unavailable: {
       icon: "cloud-off",
       title: "Model unavailable",
-      body: "No trained model is installed for this category. BioTrace will not invent a label.",
+      body: "No trained model is installed for this category. My Utkal Heritage will not invent a label.",
     },
   };
 
