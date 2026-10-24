@@ -73,6 +73,66 @@
       "source": "Wikimedia Commons",
       "pixels": "1500x1068",
       "bytes": 241977
+    },
+    {
+      "file": "hero/puri-temple.jpg",
+      "label": "Jagannath Temple illuminated at night, Puri",
+      "title": "File:Lord Jagannath temple at night.jpg",
+      "author": "Kalyanpuranand",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Lord_Jagannath_temple_at_night.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "960x686",
+      "bytes": 160656
+    },
+    {
+      "file": "hero/kalinga-hockey.jpg",
+      "label": "Kalinga Hockey Stadium, Bhubaneswar",
+      "title": "File:Kalinga Hockey Stadium.jpg",
+      "author": "Subhrasingh",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Kalinga_Hockey_Stadium.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "960x720",
+      "bytes": 165105
+    },
+    {
+      "file": "hero/barabati-stadium.jpg",
+      "label": "Barabati Stadium during an IPL match, Cuttack",
+      "title": "File:Barabati Stadium IPL Match Pune Warriors India vs. Deccan Chargers.jpg",
+      "author": "Kamalakanta777",
+      "licence": "CC BY-SA 3.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Barabati_Stadium_IPL_Match_Pune_Warriors_India_vs._Deccan_Chargers.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "960x720",
+      "bytes": 148468
+    },
+    {
+      "file": "hero/odia-actor.jpg",
+      "label": "Odia actor Samaresh Routray",
+      "title": "File:Actor Samaresh Routray.JPG",
+      "author": "Jnanaranjan sahu",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Actor_Samaresh_Routray.JPG",
+      "source": "Wikimedia Commons",
+      "pixels": "960x1072",
+      "bytes": 300472
+    },
+    {
+      "file": "hero/bali-jatra.jpg",
+      "label": "Bali Jatra, Cuttack",
+      "title": "File:Bali Jatra of Cuttack, Odisha.jpg",
+      "author": "Pkp05",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Bali_Jatra_of_Cuttack,_Odisha.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "960x540",
+      "bytes": 123300
     }
   ]
 }
