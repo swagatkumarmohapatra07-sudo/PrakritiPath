@@ -149,7 +149,6 @@
     host.classList.add("site-header");
     host.id = "site-header";
     host.setAttribute("data-site-header", "true");
-    host.style.position = "sticky";
 
     // The sticky header uses backdrop-filter, which creates a containing block
     // for fixed children. Move the drawer out so it always fills the viewport.
