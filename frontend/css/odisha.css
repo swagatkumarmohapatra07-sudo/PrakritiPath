@@ -829,7 +829,7 @@ a:hover { color: var(--coral); }
   body.filter-open { overflow: hidden; }
 }
 
-/* ------------------------------------------------------------ Mobile nav */
+/* ------------------------------------------------- Odisha seasons + nature */\n.season-section {\n  position: relative;\n  overflow: hidden;\n  border-top: 1px solid var(--line);\n  background: linear-gradient(180deg, color-mix(in srgb, var(--sand) 34%, var(--body-bg)), var(--body-bg));\n}\n.season-section::before {\n  content: \"\";\n  position: absolute;\n  top: 62px;\n  right: -190px;\n  width: 540px;\n  height: 540px;\n  border-radius: 50%;\n  pointer-events: none;\n  background:\n    radial-gradient(circle, transparent 0 27%, color-mix(in srgb, var(--coral) 20%, transparent) 27% 27.5%, transparent 27.5% 46%, color-mix(in srgb, var(--coral) 14%, transparent) 46% 46.6%, transparent 46.6%),\n    repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--coral) 15%, transparent) 0deg 0.8deg, transparent 0.8deg 22.5deg);\n  opacity: 0.55;\n  -webkit-mask-image: radial-gradient(circle, #000 0 49%, transparent 49.4%);\n  mask-image: radial-gradient(circle, #000 0 49%, transparent 49.4%);\n}\n[data-theme=\"dark\"] .season-section::before { opacity: 0.3; }\n.season-section .container { position: relative; z-index: 1; }\n.season-grid {\n  display: grid;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  gap: 12px;\n}\n.season-card {\n  --season-accent: var(--coral);\n  position: relative;\n  padding: 20px 18px 18px;\n  border: 1px solid var(--line);\n  border-top: 3px solid var(--season-accent);\n  border-radius: var(--radius-md);\n  background: color-mix(in srgb, var(--surface) 92%, transparent);\n  backdrop-filter: blur(4px);\n  box-shadow: var(--shadow-xs);\n}\n.season-card:nth-child(1) { --season-accent: #4f8ba8; }\n.season-card:nth-child(2) { --season-accent: #c06a86; }\n.season-card:nth-child(3) { --season-accent: var(--gold); }\n.season-card:nth-child(4) { --season-accent: var(--emerald); }\n.season-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }\n.season-number {\n  font-family: var(--font-display);\n  font-size: 1.7rem;\n  line-height: 1;\n  color: color-mix(in srgb, var(--season-accent) 60%, var(--text-muted));\n  opacity: 0.6;\n}\n.season-top svg { width: 20px; height: 20px; color: var(--season-accent); }\n.season-card h3 { margin: 12px 0 1px; font-size: 1.18rem; }\n.season-range {\n  display: block;\n  font-size: 0.64rem;\n  font-weight: 800;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: var(--text-muted);\n}\n.season-card p { margin: 9px 0 12px; font-size: 0.78rem; line-height: 1.6; color: var(--text-soft); }\n.season-card a {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 0.71rem;\n  font-weight: 800;\n  text-decoration: none;\n  color: var(--season-accent);\n}\n.season-card a svg { width: 13px; height: 13px; }\n.season-note { margin: 12px 0 30px; font-size: 0.7rem; color: var(--text-muted); }\n.nature-head {\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-between;\n  gap: 18px;\n  flex-wrap: wrap;\n  margin: 6px 0 14px;\n}\n.nature-head h3 { margin: 2px 0 3px; font-size: clamp(1.3rem, 2.4vw, 1.85rem); }\n.nature-head p { margin: 0; max-width: 58ch; font-size: 0.82rem; color: var(--text-muted); }\n.nature-strip {\n  display: grid;\n  grid-template-columns: repeat(3, minmax(0, 1fr));\n  gap: 12px;\n}\n.nature-tile {\n  display: flex;\n  align-items: stretch;\n  min-height: 92px;\n  overflow: hidden;\n  border: 1px solid var(--line);\n  border-radius: var(--radius-md);\n  background: var(--surface);\n  text-decoration: none;\n  color: var(--text);\n  box-shadow: var(--shadow-xs);\n  transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;\n}\n.nature-tile:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--coral) 38%, var(--line)); box-shadow: var(--shadow-sm); }\n.nature-tile img { width: 34%; min-width: 92px; max-width: 130px; height: 100%; object-fit: cover; flex-shrink: 0; }\n.nature-body { display: flex; flex-direction: column; justify-content: center; gap: 1px; padding: 10px 12px; min-width: 0; }\n.nature-body strong { font-size: 0.84rem; line-height: 1.25; }\n.nature-body em { font-size: 0.68rem; color: var(--text-muted); }\n.nature-body span { margin-top: 4px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--coral); }\n[data-theme=\"dark\"] .nature-body span { color: var(--gold); }\n\n.card-footer > .small { white-space: nowrap; }\n\n/* ------------------------------------------------------------ Mobile nav */
 .nav-backdrop {
   position: fixed;
   inset: var(--nav-height) 0 0;
@@ -914,6 +914,21 @@ body.menu-open { overflow: hidden; }
 .credit-card a { font-size: 0.7rem; }
 
 /* -------------------------------------------------------------- Responsive */
+@media (max-width: 1500px) {
+  .nav { gap: 10px; }
+  .nav-link { padding-left: 10px; padding-right: 10px; }
+}
+
+@media (max-width: 1320px) {
+  .brand-tag { display: none; }
+  .nav-link { padding-left: 8px; padding-right: 8px; font-size: 0.79rem; }
+  .nav-actions .btn { padding-left: 13px; padding-right: 13px; }
+}
+
+@media (max-width: 1180px) {
+  .nav-actions .btn { display: none; }
+}
+
 @media (max-width: 980px) {
   .hero::before { background-position: right 30%; opacity: 0.42; }
   .hero-visual { min-height: 380px; }
@@ -946,6 +961,27 @@ body.menu-open { overflow: hidden; }
   .culture-card:first-child { grid-column: span 1; }
   .culture-card { min-height: 210px; }
   .credit-card img { width: 68px; height: 68px; }
+}
+
+@media (max-width: 980px) {
+  .season-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nature-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .season-section::before { right: -280px; opacity: 0.35; }
+}
+
+@media (max-width: 620px) {
+  .season-grid { grid-template-columns: 1fr; }
+  .nature-tile img { width: 30%; min-width: 86px; }
+}
+
+@media (max-width: 480px) {
+  .stat-strip { grid-template-columns: 1fr; }
+  .stat { border-right: 0; border-bottom: 1px solid var(--line); }
+  .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .stat:last-child { border-bottom: 0; }
+  .stat-icon { top: 20px; }
+  .nature-strip { grid-template-columns: 1fr; }
+  .nature-tile img { width: 28%; }
 }
 
 @media (max-width: 460px) {
