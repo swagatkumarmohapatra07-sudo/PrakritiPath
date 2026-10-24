@@ -497,14 +497,10 @@ body.menu-open { overflow: hidden; }
 }
 .mobile-nav.is-open { transform: none; visibility: visible; }
 
-.mobile-nav-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
-}
+/* The fixed header stays visible above the drawer, so it already supplies the
+   brand and the close control. Starting the drawer at the link list avoids a
+   duplicated lockup and a second close button. */
+.mobile-nav-head { display: none; }
 .mobile-nav-head .brand { pointer-events: none; }
 .mobile-nav-title {
   font-family: var(--font-editorial);
@@ -528,6 +524,7 @@ body.menu-open { overflow: hidden; }
 }
 .mobile-nav nav a svg { width: 18px; height: 18px; color: var(--text-muted); }
 .mobile-nav nav a:hover, .mobile-nav nav a[aria-current="page"] { background: var(--mint-soft); color: var(--emerald-deep); }
+.mobile-nav .nav-link[aria-current="page"]::after { display: none; }
 .mobile-nav-actions { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
 .mobile-nav-actions .btn { width: 100%; justify-content: center; }
 .mobile-nav-foot {

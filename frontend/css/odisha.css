@@ -432,29 +432,46 @@ body.home .hero {
 }
 
 .hero-gallery {
-  --orbit: 40.5%;
-  --thumb: clamp(50px, 6.6vw, 82px);
+  --thumb: clamp(44px, 12vw, 64px);
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 15px);
+  isolation: isolate;
+}
+
+/* A single circular stage with one orbit line. The thumbnails live in a calm
+   two-row grid underneath, so nothing crowds the photograph. */
+.hero-stage-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.hero-stage-wrap {
+  position: relative;
+  width: min(84%, 380px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  isolation: isolate;
 }
-.hero-gallery::before {
+.hero-stage-wrap::before {
   content: "";
   position: absolute;
-  inset: 5%;
+  inset: -12%;
   z-index: -1;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--gold) 20%, transparent), transparent 62%),
-    radial-gradient(circle at 50% 58%, color-mix(in srgb, var(--coral) 14%, transparent), transparent 72%);
-  filter: blur(8px);
+    radial-gradient(circle at 50% 44%, color-mix(in srgb, var(--gold) 20%, transparent), transparent 62%),
+    radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--coral) 12%, transparent), transparent 72%);
+  filter: blur(18px);
 }
 .hero-wheel {
   position: absolute;
-  inset: calc(50% - var(--orbit));
+  inset: 0;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
@@ -469,16 +486,16 @@ body.home .hero {
 }
 .hero-stage {
   position: relative;
-  z-index: 2;
-  width: 54%;
+  z-index: 1;
+  width: calc(100% - 18px);
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 50%;
   background: #2b1712;
   box-shadow:
-    0 36px 70px -34px rgba(45, 20, 12, 0.82),
-    0 0 0 8px color-mix(in srgb, var(--paper) 58%, transparent),
-    0 0 0 9px color-mix(in srgb, var(--gold) 30%, transparent),
+    0 30px 60px -32px rgba(45, 20, 12, 0.8),
+    0 0 0 1px color-mix(in srgb, var(--gold) 26%, transparent),
+    0 0 0 7px color-mix(in srgb, var(--paper) 42%, transparent),
     inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 .hero-stage-img {
@@ -490,34 +507,29 @@ body.home .hero {
   transition: opacity 0.38s var(--ease), transform 0.9s var(--ease);
 }
 .hero-stage-img.is-swapping { opacity: 0; transform: scale(1.06); }
-.hero-stage::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(15, 7, 4, 0) 40%, rgba(15, 7, 4, 0.34) 64%, rgba(15, 7, 4, 0.88) 100%);
-}
+
+/* Caption below the photo keeps the image fully visible. */
 .hero-stage-meta {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  z-index: 2;
-  width: 78%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1px;
-  padding: 30px 0 15px;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
   text-align: center;
-  color: #fff8ea;
+  color: var(--ink);
 }
 .hero-stage-kicker {
-  font-size: 0.53rem;
+  font-size: 0.55rem;
   font-weight: 800;
   letter-spacing: 0.17em;
   text-transform: uppercase;
-  color: #f4c987;
+  color: var(--coral);
 }
 .hero-stage-title {
   display: inline-flex;
@@ -525,72 +537,79 @@ body.home .hero {
   gap: 4px;
   max-width: 100%;
   font-family: var(--font-display);
-  font-size: clamp(0.84rem, 0.74rem + 0.36vw, 1.02rem);
+  font-size: clamp(0.94rem, 0.82rem + 0.38vw, 1.12rem);
   font-weight: 600;
-  line-height: 1.18;
-  color: #fff8ea;
+  line-height: 1.2;
+  color: var(--ink);
   text-decoration: none;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 .hero-stage-title span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.hero-stage-title svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.8; }
-.hero-stage-title:hover { color: #ffe3b6; }
+.hero-stage-title svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.65; color: var(--gold); }
+.hero-stage-title:hover { color: var(--coral); }
 .hero-stage-odia {
   font-family: var(--font-odia);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   line-height: 1.5;
-  color: rgba(255, 241, 220, 0.82);
+  color: var(--ink-muted);
 }
 
-.hero-ring { position: absolute; inset: 0; z-index: 3; }
+/* Every highlight stays visible: two tidy rows of six circular thumbnails. */
+.hero-ring {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(6, var(--thumb));
+  justify-content: center;
+  gap: clamp(4px, 1.4vw, 10px);
+  width: 100%;
+  padding: 0;
+}
 .hero-ring-item {
-  --a: calc(var(--i, 0) * 30deg - 90deg);
-  position: absolute;
-  top: calc(50% + var(--orbit) * sin(var(--a)));
-  left: calc(50% + var(--orbit) * cos(var(--a)));
+  position: relative;
+  top: auto;
+  left: auto;
   width: var(--thumb);
   height: var(--thumb);
   padding: 0;
-  transform: translate(-50%, -50%);
+  transform: none;
   border: 3px solid color-mix(in srgb, var(--paper) 90%, transparent);
   border-radius: 50%;
   overflow: hidden;
   background: var(--surface-3);
   cursor: pointer;
   box-shadow:
-    0 12px 24px -12px rgba(45, 20, 12, 0.55),
-    0 0 0 1px color-mix(in srgb, var(--gold) 32%, transparent);
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s;
+    0 10px 20px -12px rgba(45, 20, 12, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--gold) 28%, transparent);
+  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), border-color 0.28s;
 }
 .hero-ring-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: saturate(0.86) brightness(0.92);
-  transition: filter 0.35s, transform 0.6s var(--ease);
+  filter: saturate(0.9) brightness(0.94);
+  transition: filter 0.3s, transform 0.5s var(--ease);
 }
 .hero-ring-item:hover {
-  z-index: 5;
-  transform: translate(-50%, -50%) scale(1.09);
+  z-index: 2;
+  transform: translateY(-2px) scale(1.05);
   border-color: var(--gold);
 }
-.hero-ring-item:hover img { filter: none; transform: scale(1.06); }
+.hero-ring-item:hover img { filter: none; transform: scale(1.05); }
 .hero-ring-item:focus-visible {
   outline: 3px solid var(--coral);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 .hero-ring-item.is-active {
-  z-index: 6;
-  transform: translate(-50%, -50%) scale(1.16);
+  z-index: 2;
+  transform: scale(1.06);
   border-color: var(--gold);
   box-shadow:
-    0 0 0 5px color-mix(in srgb, var(--gold) 20%, transparent),
-    0 16px 30px -12px rgba(45, 20, 12, 0.62);
+    0 0 0 3px color-mix(in srgb, var(--gold) 20%, transparent),
+    0 12px 22px -12px rgba(45, 20, 12, 0.55);
 }
 .hero-ring-item.is-active img { filter: none; }
 
@@ -684,15 +703,9 @@ body.home .hero {
 
 .hero-stage {
   background:
-    linear-gradient(150deg, rgba(255, 250, 238, 0.22), rgba(255, 250, 238, 0.02) 42%),
+    linear-gradient(150deg, rgba(255, 250, 238, 0.16), rgba(255, 250, 238, 0.02) 42%),
     #2b1712;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  box-shadow:
-    0 36px 70px -34px rgba(45, 20, 12, 0.82),
-    0 0 0 8px rgba(255, 252, 245, 0.34),
-    0 0 0 9px rgba(255, 255, 255, 0.32),
-    0 0 0 10px color-mix(in srgb, var(--gold) 26%, transparent),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.34);
   -webkit-backdrop-filter: blur(4px) saturate(120%);
   backdrop-filter: blur(4px) saturate(120%);
 }
@@ -703,25 +716,8 @@ body.home .hero {
   z-index: 2;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.24), transparent 34%, transparent 72%, rgba(255, 255, 255, 0.06));
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.2), transparent 34%, transparent 72%, rgba(255, 255, 255, 0.05));
   mix-blend-mode: screen;
-}
-
-.hero-stage-meta {
-  width: 84%;
-  margin-bottom: 10px;
-  padding: 12px 14px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 16px;
-  background: linear-gradient(160deg, rgba(38, 20, 13, 0.44), rgba(20, 9, 5, 0.58));
-  box-shadow:
-    0 14px 26px -18px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-}
-.hero-stage::after {
-  background: linear-gradient(180deg, rgba(15, 7, 4, 0) 46%, rgba(15, 7, 4, 0.24) 70%, rgba(15, 7, 4, 0.66) 100%);
 }
 
 .hero-ring-item {
@@ -792,13 +788,12 @@ body.home .hero {
   border-color: rgba(255, 232, 199, 0.16);
 }
 [data-theme="dark"] .hero-stage {
-  border-color: rgba(255, 240, 215, 0.22);
+  border-color: rgba(255, 240, 215, 0.2);
   box-shadow:
-    0 36px 70px -34px rgba(0, 0, 0, 0.9),
-    0 0 0 8px rgba(23, 17, 12, 0.5),
-    0 0 0 9px rgba(255, 240, 215, 0.18),
-    0 0 0 10px color-mix(in srgb, var(--gold) 22%, transparent),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    0 30px 60px -32px rgba(0, 0, 0, 0.9),
+    0 0 0 1px color-mix(in srgb, var(--gold) 25%, transparent),
+    0 0 0 7px rgba(23, 17, 12, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -808,7 +803,6 @@ body.home .hero {
   .hero-credit {
     background: var(--paper);
   }
-  .hero-stage-meta { background: rgba(28, 13, 8, 0.86); }
 }
 
 
@@ -1928,17 +1922,11 @@ html { scroll-padding-top: calc(var(--nav-height) + 14px); }
   .brand-odia { font-size: 0.6rem; }
   .nav-actions { gap: 6px; margin-left: 4px; }
   .icon-btn { width: 38px; height: 38px; }
-  .hero-gallery { --thumb: 46px; }
 }
 
 @media (max-width: 460px) {
   .hero-copy h1 { font-size: clamp(1.95rem, 8.4vw, 2.45rem); }
   .hero-ctas .btn { width: 100%; }
-  .hero-gallery { --thumb: 52px; --orbit: 40%; }
-  .hero-stage-meta { width: 84%; padding-bottom: 12px; }
-  .hero-stage-kicker { font-size: 0.48rem; letter-spacing: 0.13em; }
-  .hero-stage-title { font-size: 0.8rem; }
-  .hero-stage-odia { font-size: 0.62rem; }
   .hero-showcase-label { font-size: 0.55rem; }
   .hero-chip { font-size: 0.62rem; }
   .species-thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }

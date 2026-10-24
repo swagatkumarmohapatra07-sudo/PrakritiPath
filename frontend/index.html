@@ -37,7 +37,7 @@
             <div class="search-field">
               <i data-lucide="search" aria-hidden="true"></i>
               <input class="input" id="hero-q" name="q" type="search" maxlength="120"
-                     placeholder="Search places, districts or categories" autocomplete="off"
+                     placeholder="Search places or districts" autocomplete="off"
                      aria-label="Search Odisha destinations" />
               <button class="btn btn-primary" type="submit">Search</button>
             </div>
@@ -76,16 +76,19 @@
           <p class="hero-showcase-label"><span class="live-dot" aria-hidden="true"></span>Odisha in motion</p>
           <div class="hero-gallery" id="hero-gallery" role="group"
                aria-label="Odisha highlights: places, sport, festivals and freedom fighters">
-            <div class="hero-wheel" aria-hidden="true">
-              <span class="hero-wheel-ring"></span>
-            </div>
-
-            <div class="hero-stage" role="tabpanel" id="hero-stage-panel" aria-live="polite" aria-atomic="true"
+            <div class="hero-stage-panel" role="tabpanel" id="hero-stage-panel" aria-live="polite" aria-atomic="true"
                  aria-labelledby="hero-tab-0">
-              <img class="hero-stage-img" id="hero-stage-img"
-                   src="/assets/images/odissi.jpg"
-                   alt="Odissi dancer Sujata Mohapatra in traditional Odisha costume"
-                   fetchpriority="high" decoding="async" />
+              <div class="hero-stage-wrap">
+                <div class="hero-wheel" aria-hidden="true">
+                  <span class="hero-wheel-ring"></span>
+                </div>
+                <div class="hero-stage">
+                  <img class="hero-stage-img" id="hero-stage-img"
+                       src="/assets/images/odissi.jpg"
+                       alt="Odissi dancer Sujata Mohapatra in traditional Odisha costume"
+                       fetchpriority="high" decoding="async" />
+                </div>
+              </div>
               <div class="hero-stage-meta">
                 <span class="hero-stage-kicker" id="hero-stage-kicker">Classical dance</span>
                 <a class="hero-stage-title" id="hero-stage-link" href="/tourism.html?category=cultural">
