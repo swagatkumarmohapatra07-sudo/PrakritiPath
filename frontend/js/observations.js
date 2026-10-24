@@ -152,7 +152,12 @@
     setupEvents();
     scopeNote();
     BT.bindObservationCards(document.getElementById("obs-list"));
-    load();
+    await load();
+
+    const openId = new URLSearchParams(location.search).get("open");
+    if (openId && /^\d+$/.test(openId)) {
+      BT.openObservation(Number(openId));
+    }
   }
 
   document.addEventListener("DOMContentLoaded", init);

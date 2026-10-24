@@ -35,7 +35,7 @@ from ..schemas import (
     SpeciesOut,
 )
 from ..security import hash_session_id, require_session_id
-from ..services import geo
+from ..services import geo, species_media
 from ..services.image_quality import ImageValidationError, assess_quality, load_and_validate
 from ..services.predictor import DEFAULT_LIMITATIONS, ModelNotAvailable, registry
 from ..services.storage import delete_observation_image, image_url, save_observation_image
@@ -70,6 +70,30 @@ def _species_map(db: Session, category: str) -> dict[str, Species]:
     return {row.scientific_name.lower(): row for row in rows}
 
 
+def _species_out(row: Species) -> SpeciesOut:
+    """Serialise a species with its gallery and further-reading links.
+
+    The ORM row remains the source of truth for the catalogue text. Images and
+    links are additive metadata loaded from committed project files; nothing is
+    generated when no free photograph exists.
+    """
+    payload = SpeciesOut.model_validate(row).model_dump()
+    images = species_media.images_for(row.scientific_name)
+    payload["images"] = images
+    payload["sources"] = species_media.sources_for(
+        row.scientific_name, row.common_name, row.category
+    )
+    payload["odisha_note"] = species_media.odisha_note(row.known_regions)
+    if images:
+        cover = images[0]
+        payload["image_url"] = cover.get("thumbnail_url") or cover.get("url")
+        credit = " · ".join(
+            part for part in (cover.get("credit"), cover.get("licence")) if part
+        )
+        payload["image_credit"] = credit or None
+    return SpeciesOut(**payload)
+
+
 def _serialize_observation(
     obs: BiodiversityObservation,
     *,
@@ -98,7 +122,7 @@ def _serialize_observation(
         predicted_species=obs.predicted_species,
         predicted_common_name=obs.predicted_common_name,
         species_id=obs.species_id,
-        species=SpeciesOut.model_validate(obs.species) if obs.species else None,
+        species=_species_out(obs.species) if obs.species else None,
         confidence_score=obs.confidence_score,
         image_url=image_url(obs.image_path),
         image_quality_status=obs.image_quality_status,
@@ -329,7 +353,7 @@ def list_species(
                 Species.description.ilike(term),
             )
         )
-    return [SpeciesOut.model_validate(item) for item in db.scalars(statement).all()]
+    return [_species_out(item) for item in db.scalars(statement).all()]
 
 
 @router.get("/species/{species_id}", response_model=SpeciesOut)
@@ -337,7 +361,7 @@ def species_detail(species_id: int, db: Annotated[Session, Depends(get_db)]):
     species = db.get(Species, species_id)
     if not species:
         raise HTTPException(status_code=404, detail="Species not found in the catalogue.")
-    return SpeciesOut.model_validate(species)
+    return _species_out(species)
 
 
 @router.get("/model-status", response_model=ModelStatusOut)

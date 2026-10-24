@@ -13,6 +13,7 @@
     prediction: null,
     saved: false,
     species: [],
+    speciesById: new Map(),
     speciesFilter: "all",
     speciesQuery: "",
   };
@@ -376,18 +377,37 @@
       return;
     }
     host.innerHTML = rows
-      .map(
-        (item) => `<article class="species-card">
-          <div class="sp-icon ${item.category === "bird" ? "bird" : ""}">${BT.icon(item.category === "bird" ? "bird" : "leaf")}</div>
-          <strong>${BT.esc(item.common_name)}</strong>
-          <em>${BT.esc(item.scientific_name)}</em>
-          <p>${BT.esc(item.description || "No description recorded.")}</p>
-          <div class="row" style="gap:6px;margin-top:10px">
-            <span class="badge ${item.category === "bird" ? "badge-review" : "badge-verified"}">${item.category === "bird" ? "Bird" : "Plant"}</span>
-            ${item.conservation_status ? `<span class="chip">${BT.esc(item.conservation_status)}</span>` : ""}
-          </div>
-        </article>`
-      )
+      .map((item) => {
+        const images = item.images || [];
+        const cover = images[0];
+        return `<button class="species-card" type="button" data-species-id="${item.id}"
+                  aria-label="Open photographs and sources for ${BT.esc(item.common_name)}">
+          <span class="species-card-media">
+            ${
+              cover
+                ? `<img class="species-cover" src="${BT.esc(cover.thumbnail_url || cover.url)}"
+                       alt="${BT.esc(cover.title || item.common_name)}" loading="lazy"
+                       decoding="async" referrerpolicy="no-referrer" />`
+                : `<span class="sp-icon ${item.category === "bird" ? "bird" : ""}">${BT.icon(item.category === "bird" ? "bird" : "leaf")}</span>`
+            }
+            ${
+              images.length
+                ? `<span class="species-photo-count">${BT.icon("images")}${images.length} photo${images.length === 1 ? "" : "s"}</span>`
+                : `<span class="species-photo-count is-empty">${BT.icon("image-off")}No free photo</span>`
+            }
+          </span>
+          <span class="species-card-body">
+            <strong>${BT.esc(item.common_name)}</strong>
+            <em>${BT.esc(item.scientific_name)}</em>
+            <span class="sp-desc">${BT.esc(item.description || "No description recorded.")}</span>
+            <span class="row" style="gap:6px;margin-top:10px">
+              <span class="badge ${item.category === "bird" ? "badge-review" : "badge-verified"}">${item.category === "bird" ? "Bird" : "Plant"}</span>
+              ${item.conservation_status ? `<span class="chip">${BT.esc(item.conservation_status)}</span>` : ""}
+            </span>
+            <span class="species-card-link">Photos &amp; sources ${BT.icon("arrow-right")}</span>
+          </span>
+        </button>`;
+      })
       .join("");
     BT.refreshIcons();
   }
@@ -444,6 +464,16 @@
       }
     });
 
+    const speciesGrid = document.getElementById("species-grid");
+    if (speciesGrid) {
+      speciesGrid.addEventListener("click", (event) => {
+        const card = event.target.closest("[data-species-id]");
+        if (!card) return;
+        const species = state.speciesById.get(Number(card.dataset.speciesId));
+        if (species) BT.speciesModal(species);
+      });
+    }
+
     const search = document.getElementById("species-search");
     if (search) {
       search.addEventListener(
@@ -477,10 +507,18 @@
         select.appendChild(option);
       });
       state.species = species;
+      state.speciesById = new Map(species.map((item) => [Number(item.id), item]));
       renderSpecies();
     } catch (err) {
       renderModelStatus({ torch_installed: true, plant: {}, bird: {} });
       BT.errorToast(err);
+    }
+
+    // Shareable deep link: /biodiversity.html?species=<id>
+    const speciesParam = new URLSearchParams(location.search).get("species");
+    if (speciesParam && /^\d+$/.test(speciesParam)) {
+      const species = state.speciesById.get(Number(speciesParam));
+      if (species) BT.speciesModal(species);
     }
     BT.refreshIcons();
   }

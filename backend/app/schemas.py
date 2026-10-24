@@ -279,6 +279,24 @@ class ModelStatusOut(BaseModel):
     torch_installed: bool
 
 
+class SpeciesImageOut(BaseModel):
+    url: str
+    thumbnail_url: str | None = None
+    page_url: str
+    title: str | None = None
+    credit: str | None = None
+    licence: str | None = None
+    licence_url: str | None = None
+    source_name: str = "Wikimedia Commons"
+
+
+class SpeciesSourceOut(BaseModel):
+    label: str
+    url: str
+    kind: str = "reference"
+    note: str | None = None
+
+
 class SpeciesOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -294,6 +312,9 @@ class SpeciesOut(BaseModel):
     licence_information: str | None = None
     image_url: str | None = None
     image_credit: str | None = None
+    images: list[SpeciesImageOut] = Field(default_factory=list)
+    sources: list[SpeciesSourceOut] = Field(default_factory=list)
+    odisha_note: str | None = None
 
 
 class ObservationOut(BaseModel):

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/odisha.css" />
 </head>
 <body>
   <div id="site-header"></div>
@@ -206,6 +207,64 @@ python -m pytest</pre>
           <div class="conservation-card"><div class="cc-icon cc-gold"><i data-lucide="badge-alert" aria-hidden="true"></i></div><h4>No fabricated tourism facts</h4><p>Hours, fees, contacts and accessibility are shown only when recorded. Otherwise the interface says “Not verified — information unavailable”.</p></div>
           <div class="conservation-card"><div class="cc-icon cc-blue"><i data-lucide="lock" aria-hidden="true"></i></div><h4>Admin separation</h4><p>The reviewer console uses environment-configured credentials and short-lived signed bearer tokens. Public users cannot change verification status.</p></div>
         </div>
+      </div>
+    </section>
+
+    <section class="section-tight" id="credits">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Photograph credits</span>
+            <h2>The people behind the pictures</h2>
+            <p>
+              The Odisha cultural theme uses six Wikimedia Commons photographs, and every species card
+              can show up to three reference photographs. Each file is reused under its own free licence;
+              the author and licence are shown in the interface and linked below.
+            </p>
+          </div>
+        </div>
+        <div class="credit-grid">
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Konark_sun_temple-wheel_carving.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/konark-wheel.jpg" alt="Stone wheel of the Konark Sun Temple" loading="lazy" />
+            <div><h4>Konark Sun Temple wheel</h4><p>Ajayk05344 · CC BY-SA 4.0<br />Hero background and culture card</p></div>
+          </a>
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Sujata_Mohapatra_02.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/odissi.jpg" alt="Odissi dancer Sujata Mohapatra" loading="lazy" />
+            <div><h4>Odissi dancer</h4><p>Mullookkaaran · CC BY-SA 3.0<br />Home hero portrait</p></div>
+          </a>
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Pattachitra_artist_at_work_in_Odisha,_India.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/pattachitra.jpg" alt="Pattachitra artist at work in Odisha" loading="lazy" />
+            <div><h4>Pattachitra artist</h4><p>Euphoric Captures · CC BY-SA 4.0<br />Hero collage and Raghurajpur card</p></div>
+          </a>
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Annual_chariot_festival_%27Jagannath_Yatra%27,_Puri_Odisha.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/rath-yatra.jpg" alt="Rath Yatra festival in Puri" loading="lazy" />
+            <div><h4>Rath Yatra, Puri</h4><p>Prashant Kharote · CC BY-SA 4.0<br />Jagannath Temple culture card</p></div>
+          </a>
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Chilika_Lake_or_Chilka_in_Odisha_01.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/chilika.jpg" alt="Chilika Lake in Odisha" loading="lazy" />
+            <div><h4>Chilika Lake</h4><p>Pinakpani · CC BY-SA 4.0<br />Chilika culture card</p></div>
+          </a>
+          <a class="credit-card" href="https://commons.wikimedia.org/wiki/File:Rajarani_Temple_01.jpg" target="_blank" rel="noopener">
+            <img src="/assets/images/rajarani.jpg" alt="Rajarani Temple, Bhubaneswar" loading="lazy" />
+            <div><h4>Rajarani Temple</h4><p>Bernard Gagnon · CC BY-SA 3.0<br />Page-header image band</p></div>
+          </a>
+        </div>
+        <div class="callout info" style="margin-top:18px">
+          <i data-lucide="images" aria-hidden="true"></i>
+          <div>
+            <strong>Species reference galleries.</strong>
+            The catalogue stores 66 reference photographs across 22 species. Every photograph is credited in
+            its species dialog, with a link to the Commons file page and its licence. The machine-readable list,
+            including author and licence for each file, is committed at
+            <a href="https://github.com/swagatkumarmohapatra07-sudo/PrakritiPath/blob/main/backend/app/data/species_images.json" target="_blank" rel="noopener">backend/app/data/species_images.json</a>.
+            No photograph is used when no suitable free file was found.
+          </div>
+        </div>
+        <p class="tiny muted" style="margin-top:12px">
+          This page is attribution, not endorsement: the photographers do not endorse BioTrace or its
+          identifications. Licence deeds are linked from each species dialog. If you reuse a file, check its
+          Commons page for the current licence and any additional conditions.
+        </p>
       </div>
     </section>
 

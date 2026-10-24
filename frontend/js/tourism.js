@@ -437,9 +437,43 @@
       });
     });
     document.getElementById("clear-filters").addEventListener("click", clearFilters);
-    document.getElementById("mobile-filter").addEventListener("click", () => {
-      const sidebar = document.getElementById("filter-sidebar");
-      sidebar.classList.toggle("is-open");
+
+    const sidebar = document.getElementById("filter-sidebar");
+    const filterBackdrop = document.getElementById("filter-backdrop");
+    const filterToggle = document.getElementById("mobile-filter");
+    const openFilters = () => {
+      sidebar.classList.add("is-open");
+      if (filterBackdrop) {
+        filterBackdrop.classList.remove("hidden");
+        filterBackdrop.setAttribute("aria-hidden", "false");
+      }
+      document.body.classList.add("filter-open");
+      filterToggle.setAttribute("aria-expanded", "true");
+      const close = document.getElementById("filter-close");
+      if (close) close.focus();
+    };
+    const closeFilters = () => {
+      sidebar.classList.remove("is-open");
+      if (filterBackdrop) {
+        filterBackdrop.classList.add("hidden");
+        filterBackdrop.setAttribute("aria-hidden", "true");
+      }
+      document.body.classList.remove("filter-open");
+      filterToggle.setAttribute("aria-expanded", "false");
+    };
+    filterToggle.setAttribute("aria-expanded", "false");
+    filterToggle.addEventListener("click", () => {
+      if (sidebar.classList.contains("is-open")) closeFilters();
+      else openFilters();
+    });
+    if (filterBackdrop) filterBackdrop.addEventListener("click", closeFilters);
+    const filterClose = document.getElementById("filter-close");
+    if (filterClose) filterClose.addEventListener("click", closeFilters);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && sidebar.classList.contains("is-open")) closeFilters();
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) closeFilters();
     });
     document.getElementById("near-me").addEventListener("click", async () => {
       const button = document.getElementById("near-me");

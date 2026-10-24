@@ -94,6 +94,28 @@
       </div>`;
   }
 
+  function sourceLinks(dest) {
+    const query = encodeURIComponent(dest.name);
+    const links = [
+      ["Wikipedia search", `https://en.wikipedia.org/w/index.php?search=${query}`],
+      ["Wikimedia Commons", `https://commons.wikimedia.org/w/index.php?search=${query}`],
+    ];
+    if (dest.latitude !== null && dest.latitude !== undefined && dest.longitude !== null && dest.longitude !== undefined) {
+      links.push([
+        "OpenStreetMap",
+        `https://www.openstreetmap.org/?mlat=${dest.latitude}&mlon=${dest.longitude}#map=14/${dest.latitude}/${dest.longitude}`,
+      ]);
+    }
+    return `<div class="source-links">
+      ${links
+        .map(
+          ([label, url]) =>
+            `<a class="source-link" href="${BT.esc(url)}" target="_blank" rel="noopener">${BT.icon("external-link")}${BT.esc(label)}</a>`
+        )
+        .join("")}
+    </div>`;
+  }
+
   function renderMain(dest) {
     const gaps = dest.data_gaps || [];
     return `${renderGallery(dest)}
@@ -159,6 +181,9 @@
           <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap ODbL licence</a>.
           Descriptive text and project-curated metadata are academic seed data and should be independently verified before publication or travel decisions.
         </p>
+        <h3 style="margin:18px 0 6px;font-size:1rem">Sources to learn more</h3>
+        <p class="tiny muted" style="margin:0 0 8px">These are external search pages, not records verified by BioTrace. Read them alongside the provenance above.</p>
+        ${sourceLinks(dest)}
       </div>`;
   }
 

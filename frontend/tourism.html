@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/odisha.css" />
   <link rel="stylesheet" href="/vendor/leaflet.css" />
 </head>
 <body>
@@ -37,10 +38,16 @@
     <section class="section-tight">
       <div class="container">
         <div class="tourism-layout">
+          <div class="filter-backdrop hidden" id="filter-backdrop" aria-hidden="true"></div>
           <aside class="filter-sidebar" id="filter-sidebar" aria-label="Destination filters">
             <div class="filter-head">
               <h3>Filters</h3>
-              <button class="btn btn-ghost btn-sm" id="clear-filters" type="button">Clear all</button>
+              <div class="row" style="gap:6px">
+                <button class="btn btn-ghost btn-sm" id="clear-filters" type="button">Clear all</button>
+                <button class="filter-close" id="filter-close" type="button" aria-label="Close filters">
+                  <i data-lucide="x" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
             <div class="filter-group">
               <div class="field" style="margin-bottom:0">

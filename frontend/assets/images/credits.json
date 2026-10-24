@@ -1,0 +1,78 @@
+{
+  "note": "Odisha cultural photographs used by the BioTrace interface theme. Only freely licensed Wikimedia Commons files are included.",
+  "retrieved": "2026-10-24",
+  "images": [
+    {
+      "file": "konark-wheel.jpg",
+      "label": "Stone chariot wheel, Konark Sun Temple",
+      "title": "File:Konark sun temple-wheel carving.jpg",
+      "author": "Ajayk05344",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Konark_sun_temple-wheel_carving.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1280x720",
+      "bytes": 241222
+    },
+    {
+      "file": "odissi.jpg",
+      "label": "Odissi dancer Sujata Mohapatra",
+      "title": "File:Sujata Mohapatra 02.jpg",
+      "author": "Mullookkaaran",
+      "licence": "CC BY-SA 3.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Sujata_Mohapatra_02.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1000x1333",
+      "bytes": 95656
+    },
+    {
+      "file": "pattachitra.jpg",
+      "label": "Pattachitra artist at work in Odisha",
+      "title": "File:Pattachitra artist at work in Odisha, India.jpg",
+      "author": "Euphoric Captures",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Pattachitra_artist_at_work_in_Odisha,_India.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1200x900",
+      "bytes": 322036
+    },
+    {
+      "file": "rath-yatra.jpg",
+      "label": "Rath Yatra chariot festival, Puri",
+      "title": "File:Annual chariot festival 'Jagannath Yatra', Puri Odisha.jpg",
+      "author": "Prashant Kharote",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Annual_chariot_festival_%27Jagannath_Yatra%27,_Puri_Odisha.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1500x925",
+      "bytes": 344314
+    },
+    {
+      "file": "chilika.jpg",
+      "label": "Chilika Lake, Odisha",
+      "title": "File:Chilika Lake or Chilka in Odisha 01.jpg",
+      "author": "Pinakpani",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Chilika_Lake_or_Chilka_in_Odisha_01.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1400x1050",
+      "bytes": 118935
+    },
+    {
+      "file": "rajarani.jpg",
+      "label": "Rajarani Temple, Bhubaneswar",
+      "title": "File:Rajarani Temple 01.jpg",
+      "author": "Bernard Gagnon",
+      "licence": "CC BY-SA 3.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Rajarani_Temple_01.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "1500x1068",
+      "bytes": 241977
+    }
+  ]
+}

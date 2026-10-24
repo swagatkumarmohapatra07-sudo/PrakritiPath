@@ -54,7 +54,7 @@
           <span class="brand-mark">${LOGO}</span>
           <span class="brand-text">
             <span class="brand-name">BioTrace</span>
-            <span class="brand-tag">Odisha · Biodiversity & Tourism</span>
+            <span class="brand-tag">Odisha · Culture, Biodiversity &amp; Tourism</span>
           </span>
         </a>
         <nav aria-label="Primary navigation">
@@ -71,11 +71,13 @@
           </button>
         </div>
       </div>
+      <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
       <div class="mobile-nav" id="mobile-nav">
         <nav aria-label="Mobile navigation">
           <ul>${navMarkup(true)}</ul>
         </nav>
         <a class="btn btn-primary" href="/map.html">${BT.icon("map")}Open interactive map</a>
+        <a class="btn btn-secondary" href="/tourism.html?category=cultural">${BT.icon("landmark")}Explore Odisha culture</a>
       </div>
       <div id="header-observer" aria-hidden="true"></div>`;
     host.classList.add("site-header");
@@ -96,7 +98,7 @@
               <span class="brand-mark">${LOGO}</span>
               <span class="brand-text">
                 <span class="brand-name">BioTrace</span>
-                <span class="brand-tag">Odisha · Biodiversity & Tourism</span>
+                <span class="brand-tag">Odisha · Culture, Biodiversity &amp; Tourism</span>
               </span>
             </a>
             <p class="footer-about">
@@ -114,6 +116,7 @@
             <ul>
               <li><a href="/biodiversity.html">Biodiversity AI</a></li>
               <li><a href="/tourism.html">Tourism Explorer</a></li>
+              <li><a href="/tourism.html?category=cultural">Odisha culture</a></li>
               <li><a href="/map.html">Interactive map</a></li>
               <li><a href="/saved.html">Saved places & trips</a></li>
               <li><a href="/observations.html">Observations</a></li>
@@ -136,6 +139,7 @@
               <li><a href="/about.html#limitations">Known limitations</a></li>
               <li><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap licence</a></li>
               <li><a href="/about.html#datasets">Dataset licensing</a></li>
+              <li><a href="/about.html#credits">Photograph credits</a></li>
             </ul>
           </div>
         </div>
@@ -190,15 +194,26 @@
   function setupMobileNav() {
     const toggle = document.getElementById("nav-toggle");
     const panel = document.getElementById("mobile-nav");
+    const backdrop = document.getElementById("nav-backdrop");
     if (!toggle || !panel) return;
     const close = () => {
       panel.classList.remove("is-open");
+      if (backdrop) {
+        backdrop.classList.remove("is-open");
+        backdrop.setAttribute("aria-hidden", "true");
+      }
+      document.body.classList.remove("menu-open");
       toggle.setAttribute("aria-expanded", "false");
       toggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
       BT.refreshIcons();
     };
     toggle.addEventListener("click", () => {
       const open = panel.classList.toggle("is-open");
+      if (backdrop) {
+        backdrop.classList.toggle("is-open", open);
+        backdrop.setAttribute("aria-hidden", String(!open));
+      }
+      document.body.classList.toggle("menu-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.innerHTML = open
         ? '<i data-lucide="x" aria-hidden="true"></i>'
@@ -208,6 +223,7 @@
     panel.addEventListener("click", (event) => {
       if (event.target.closest("a")) close();
     });
+    if (backdrop) backdrop.addEventListener("click", close);
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") close();
     });

@@ -7,9 +7,12 @@
   <meta name="description" content="BioTrace is an academic project combining uncertainty-aware plant and bird identification with a carefully sourced guide to Odisha's cultural and natural places." />
   <meta name="theme-color" content="#0f3d2e" />
   <script src="/js/theme.js"></script>
+  <link rel="preload" as="image" href="/assets/images/konark-wheel.jpg" />
+  <link rel="preload" as="image" href="/assets/images/odissi.jpg" />
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/odisha.css" />
 </head>
 <body>
   <div id="site-header"></div>
@@ -56,7 +59,14 @@
           </div>
         </div>
         <div class="hero-visual" id="hero-visual">
-          <div class="hero-badge"><span class="live-dot"></span><span>Live project data</span></div>
+          <img class="hero-art" src="/assets/images/odissi.jpg"
+               alt="Odissi dancer in traditional Odisha costume" fetchpriority="high" decoding="async" />
+          <figure class="hero-collage">
+            <img src="/assets/images/pattachitra.jpg"
+                 alt="A Pattachitra artist painting a traditional scroll in Odisha"
+                 loading="lazy" decoding="async" />
+            <figcaption>Pattachitra · Raghurajpur</figcaption>
+          </figure>
           <div class="hero-float one">
             <span class="float-icon"><i data-lucide="leaf" aria-hidden="true"></i></span>
             <span><strong id="float-species">Species catalogue</strong><span>curated reference list</span></span>
@@ -65,10 +75,11 @@
             <span class="float-icon"><i data-lucide="map-pin" aria-hidden="true"></i></span>
             <span><strong id="float-districts">Odisha districts</strong><span>places in the explorer</span></span>
           </div>
-          <div class="hero-float three">
-            <span class="float-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span>
-            <span><strong>Honest by design</strong><span>missing data stays missing</span></span>
-          </div>
+          <span class="hero-badge"><span class="live-dot"></span><span>Live project data</span></span>
+          <p class="hero-credit">
+            Odissi &amp; Pattachitra photographs · Wikimedia Commons ·
+            <a href="/about.html#credits">credits</a>
+          </p>
         </div>
       </div>
     </section>
@@ -141,6 +152,58 @@
             <span class="module-link">Explore the catalogue <i data-lucide="arrow-right" aria-hidden="true"></i></span>
           </a>
         </div>
+      </div>
+    </section>
+
+    <section class="section-tight culture-section" id="culture">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">Living heritage</span>
+            <h2>Odisha is not only a place to visit. It is a living practice.</h2>
+            <p>Stone temples, palm-leaf painting, dance, festival carts and lagoon ecology belong to the same landscape. These records link the cultural layer to real, sourced places in the catalogue.</p>
+          </div>
+          <a class="btn btn-secondary" href="/tourism.html?category=cultural">Explore cultural places <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="culture-grid">
+          <a class="culture-card" href="/destination.html?slug=konark-sun-temple">
+            <img src="/assets/images/konark-wheel.jpg"
+                 alt="Carved stone wheel of the Konark Sun Temple" loading="lazy" decoding="async" />
+            <span class="culture-kicker">Temple heritage</span>
+            <h3>Konark Sun Temple</h3>
+            <p>The 13th-century stone chariot on the Odisha coast, known for its monumental wheels, horses and dense relief carving.</p>
+            <span class="culture-link">Open the sourced record <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a class="culture-card" href="/destination.html?slug=raghurajpur-heritage-craft-village">
+            <img src="/assets/images/pattachitra.jpg"
+                 alt="Pattachitra artist at work in Odisha" loading="lazy" decoding="async" />
+            <span class="culture-kicker">Pattachitra</span>
+            <h3>Raghurajpur craft village</h3>
+            <p>A heritage village near Puri associated with Pattachitra scroll painting and other living craft traditions.</p>
+            <span class="culture-link">Open the sourced record <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a class="culture-card" href="/destination.html?slug=jagannath-temple-puri">
+            <img src="/assets/images/rath-yatra.jpg"
+                 alt="Chariots during the Rath Yatra festival in Puri" loading="lazy" decoding="async" />
+            <span class="culture-kicker">Festival &amp; faith</span>
+            <h3>Jagannath Temple, Puri</h3>
+            <p>The temple and its annual Rath Yatra are central to Odisha's religious calendar and public life.</p>
+            <span class="culture-link">Open the sourced record <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a class="culture-card" href="/destination.html?slug=chilika-lake">
+            <img src="/assets/images/chilika.jpg"
+                 alt="Chilika Lake in Odisha" loading="lazy" decoding="async" />
+            <span class="culture-kicker">Lagoon &amp; livelihood</span>
+            <h3>Chilika Lake</h3>
+            <p>A vast brackish-water lagoon where fishing, island communities and winter bird congregations meet.</p>
+            <span class="culture-link">Open the sourced record <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </a>
+        </div>
+        <p class="culture-credit">
+          Photographs are reused from Wikimedia Commons under their individual free licences.
+          <a href="/about.html#credits">See the full credits and licences</a>. The destination text links to the catalogue
+          record and, where available, its provenance and data gaps.
+        </p>
       </div>
     </section>
 

@@ -70,7 +70,7 @@
     }
     host.innerHTML = `<div class="grid grid-2">${items
       .map(
-        (item) => `<a class="obs-item" href="/observations.html" style="text-decoration:none;color:inherit">
+        (item) => `<a class="obs-item" href="/observations.html?open=${encodeURIComponent(item.id)}" style="text-decoration:none;color:inherit">
           <div class="obs-thumb-placeholder">${BT.icon(item.category === "bird" ? "bird" : "leaf")}</div>
           <div class="obs-body">
             <div class="row-between" style="gap:8px">
@@ -161,8 +161,6 @@
 
   async function init() {
     setupSearch();
-    const hero = document.getElementById("hero-visual");
-    if (hero && BT.heroArt) hero.insertAdjacentHTML("afterbegin", BT.heroArt());
 
     try {
       await BT.loadTaxonomy();
