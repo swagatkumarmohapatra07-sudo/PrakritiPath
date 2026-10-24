@@ -218,7 +218,16 @@
       if (kickerEl) kickerEl.textContent = data.kicker || "";
       if (titleEl) titleEl.textContent = data.title || "";
       if (odiaEl) odiaEl.textContent = data.odia || "";
-      if (linkEl && data.href) linkEl.href = data.href;
+      if (linkEl && data.href) {
+        linkEl.href = data.href;
+        if (/^https?:/i.test(data.href)) {
+          linkEl.target = "_blank";
+          linkEl.rel = "noopener";
+        } else {
+          linkEl.removeAttribute("target");
+          linkEl.removeAttribute("rel");
+        }
+      }
       if (stage) stage.setAttribute("aria-labelledby", btn.id);
       if (countEl) countEl.textContent = String(index + 1).padStart(2, "0");
       if (opts.focus) btn.focus({ preventScroll: true });

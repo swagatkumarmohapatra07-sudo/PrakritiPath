@@ -83,8 +83,8 @@
       "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
       "page_url": "https://commons.wikimedia.org/wiki/File:Lord_Jagannath_temple_at_night.jpg",
       "source": "Wikimedia Commons",
-      "pixels": "960x686",
-      "bytes": 160656
+      "pixels": "499x613",
+      "bytes": 63375
     },
     {
       "file": "hero/kalinga-hockey.jpg",
@@ -111,16 +111,40 @@
       "bytes": 148468
     },
     {
-      "file": "hero/odia-actor.jpg",
-      "label": "Odia actor Samaresh Routray",
-      "title": "File:Actor Samaresh Routray.JPG",
-      "author": "Jnanaranjan sahu",
+      "file": "hero/subhas-bose.jpg",
+      "label": "Netaji Subhas Chandra Bose",
+      "title": "File:Netaji.jpg",
+      "author": "Unknown author",
+      "licence": "Public domain (PD-India)",
+      "licence_url": "https://commons.wikimedia.org/wiki/Template:PD-India",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Netaji.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "360x360",
+      "bytes": 20699
+    },
+    {
+      "file": "hero/biju-patnaik.jpg",
+      "label": "Biju Patnaik",
+      "title": "File:Biju Patnaik.jpg",
+      "author": "Odisha Legislative Assembly",
       "licence": "CC BY-SA 4.0",
       "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-      "page_url": "https://commons.wikimedia.org/wiki/File:Actor_Samaresh_Routray.JPG",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Biju_Patnaik.jpg",
       "source": "Wikimedia Commons",
-      "pixels": "960x1072",
-      "bytes": 300472
+      "pixels": "227x321",
+      "bytes": 8985
+    },
+    {
+      "file": "hero/gopabandhu-das.jpg",
+      "label": "Gopabandhu Das",
+      "title": "File:Gopabandhu Das portrait.jpg",
+      "author": "Government of Odisha",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Gopabandhu_Das_portrait.jpg",
+      "source": "Wikimedia Commons",
+      "pixels": "520x520",
+      "bytes": 21725
     },
     {
       "file": "hero/bali-jatra.jpg",
@@ -131,8 +155,8 @@
       "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
       "page_url": "https://commons.wikimedia.org/wiki/File:Bali_Jatra_of_Cuttack,_Odisha.jpg",
       "source": "Wikimedia Commons",
-      "pixels": "960x540",
-      "bytes": 123300
+      "pixels": "638x480",
+      "bytes": 63500
     }
   ]
 }

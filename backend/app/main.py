@@ -1,4 +1,4 @@
-"""BioTrace FastAPI application entry point.
+"""My Utkal Heritage FastAPI application entry point.
 
 Run from the project root:
     python -m uvicorn backend.app.main:app --reload
@@ -54,7 +54,7 @@ async def lifespan(_app: FastAPI):
 
 
 app = FastAPI(
-    title="BioTrace API",
+    title="My Utkal Heritage API",
     version="1.0.0",
     description=(
         "Uncertainty-aware biodiversity identification and Odisha tourism discovery. "
@@ -99,7 +99,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
         content={
             "detail": (
                 "Something went wrong on the server. The error was logged. "
-                "If this persists, check the terminal running BioTrace."
+                "If this persists, check the terminal running My Utkal Heritage."
             )
         },
     )
