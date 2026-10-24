@@ -514,10 +514,15 @@
       BT.errorToast(err);
     }
 
-    // Shareable deep link: /biodiversity.html?species=<id>
+    // Shareable deep link: /biodiversity.html?species=<id or scientific name>
     const speciesParam = new URLSearchParams(location.search).get("species");
-    if (speciesParam && /^\d+$/.test(speciesParam)) {
-      const species = state.speciesById.get(Number(speciesParam));
+    if (speciesParam) {
+      const species = /^\d+$/.test(speciesParam)
+        ? state.speciesById.get(Number(speciesParam))
+        : state.species.find(
+            (item) =>
+              item.scientific_name.toLowerCase() === speciesParam.trim().toLowerCase()
+          );
       if (species) BT.speciesModal(species);
     }
     BT.refreshIcons();

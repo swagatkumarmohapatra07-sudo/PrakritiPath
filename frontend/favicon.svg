@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BioTrace Konark wheel">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c2430"/>
+      <stop offset="0.58" stop-color="#b54b2b"/>
+      <stop offset="1" stop-color="#d99a2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <g fill="none" stroke="#fff8e9" stroke-linecap="round">
+    <circle cx="32" cy="32" r="23" stroke-width="3.2"/>
+    <circle cx="32" cy="32" r="17.5" stroke-width="1.4" opacity=".62"/>
+    <g stroke-width="2.4">
+      <path d="M32 8v13.5M32 42.5V56M8 32h13.5M42.5 32H56"/>
+      <path d="M15 15l9.6 9.6M39.4 39.4L49 49M49 15l-9.6 9.6M24.6 39.4 15 49"/>
+    </g>
+  </g>
+  <circle cx="32" cy="32" r="6.2" fill="#fff8e9"/>
+  <path d="M32 27.2c3.2 1.1 5 3.2 5 5.8 0 2.4-1.8 4.3-5 5-3.2-.7-5-2.6-5-5 0-2.6 1.8-4.7 5-5.8Z" fill="#7c2430" opacity=".9"/>
+</svg>

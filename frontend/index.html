@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BioTrace — Trustworthy biodiversity AI & Odisha discovery</title>
   <meta name="description" content="BioTrace is an academic project combining uncertainty-aware plant and bird identification with a carefully sourced guide to Odisha's cultural and natural places." />
-  <meta name="theme-color" content="#0f3d2e" />
+  <meta name="theme-color" content="#54251b" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <script src="/js/theme.js"></script>
   <link rel="preload" as="image" href="/assets/images/konark-wheel.jpg" />
   <link rel="preload" as="image" href="/assets/images/odissi.jpg" />
@@ -89,25 +90,25 @@
         <div class="stat-strip reveal" id="home-stats">
           <div class="stat">
             <i data-lucide="map" class="stat-icon" aria-hidden="true"></i>
-            <div class="stat-value" data-count-to="0" id="stat-destinations">0</div>
+            <div class="stat-value" id="stat-destinations">0</div>
             <div class="stat-label">Places documented</div>
             <div class="stat-note">Seed catalogue, not a complete list</div>
           </div>
           <div class="stat">
             <i data-lucide="compass" class="stat-icon" aria-hidden="true"></i>
-            <div class="stat-value" data-count-to="0" id="stat-districts">0</div>
+            <div class="stat-value" id="stat-districts">0</div>
             <div class="stat-label">Districts covered</div>
             <div class="stat-note">From live database records</div>
           </div>
           <div class="stat">
             <i data-lucide="leaf" class="stat-icon" aria-hidden="true"></i>
-            <div class="stat-value" data-count-to="0" id="stat-species">0</div>
+            <div class="stat-value" id="stat-species">0</div>
             <div class="stat-label">Species in catalogue</div>
             <div class="stat-note">10 plants · 12 birds</div>
           </div>
           <div class="stat">
             <i data-lucide="notebook-pen" class="stat-icon" aria-hidden="true"></i>
-            <div class="stat-value" data-count-to="0" id="stat-observations">0</div>
+            <div class="stat-value" id="stat-observations">0</div>
             <div class="stat-label">Consented observations</div>
             <div class="stat-note">Pending human review</div>
           </div>
@@ -203,6 +204,94 @@
           Photographs are reused from Wikimedia Commons under their individual free licences.
           <a href="/about.html#credits">See the full credits and licences</a>. The destination text links to the catalogue
           record and, where available, its provenance and data gaps.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-tight season-section" id="seasons">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-intro">
+            <span class="eyebrow">A year in Odisha</span>
+            <h2>Follow the seasons, not a checklist.</h2>
+            <p>
+              Odisha's cultural calendar and its natural calendar overlap. This is a general orientation,
+              not a wildlife guarantee: always check local conditions, closures and community rules before
+              travelling.
+            </p>
+          </div>
+          <a class="btn btn-secondary" href="/map.html">Open the map <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="season-grid">
+          <article class="season-card">
+            <div class="season-top"><span class="season-number">01</span><i data-lucide="snowflake" aria-hidden="true"></i></div>
+            <h3>Winter</h3>
+            <span class="season-range">November – February</span>
+            <p>Wetlands fill with migratory birds. Chilika and other lagoons are the classic example; keep a respectful distance and follow local guiding rules.</p>
+            <a href="/tourism.html?category=lakes-waterfalls">Wetlands and birding <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          </article>
+          <article class="season-card">
+            <div class="season-top"><span class="season-number">02</span><i data-lucide="flower-2" aria-hidden="true"></i></div>
+            <h3>Spring</h3>
+            <span class="season-range">February – March</span>
+            <p>Flowering trees and temple festivals arrive together. Palash and other blossoms are visible along roads and forest edges; cultural places get busy.</p>
+            <a href="/tourism.html?category=cultural">Culture and blossoms <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          </article>
+          <article class="season-card">
+            <div class="season-top"><span class="season-number">03</span><i data-lucide="sun" aria-hidden="true"></i></div>
+            <h3>Summer</h3>
+            <span class="season-range">April – June</span>
+            <p>Mango season and hot afternoons. Gulmohar flowers along many roads; plan outdoor visits early and carry water. This is not a good season for long forest walks.</p>
+            <a href="/tourism.html?category=parks-gardens">Parks and gardens <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          </article>
+          <article class="season-card">
+            <div class="season-top"><span class="season-number">04</span><i data-lucide="cloud-rain" aria-hidden="true"></i></div>
+            <h3>Monsoon</h3>
+            <span class="season-range">July – October</span>
+            <p>Greenery and waterfalls return, with travel disruption. Check roads and closures before setting out; some forest routes are seasonal.</p>
+            <a href="/tourism.html?category=lakes-waterfalls">Waterfalls and rain <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+          </article>
+        </div>
+        <p class="season-note">
+          Season labels are broad orientation, not a forecast. Festival dates follow the lunar calendar and change each year.
+        </p>
+
+        <div class="nature-head">
+          <div>
+            <span class="eyebrow">Nature in the catalogue</span>
+            <h3>Six species you can open right now.</h3>
+            <p>Every card opens a gallery of freely licensed reference photographs, with the author, licence and further-reading links shown alongside.</p>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="/biodiversity.html">All 22 species <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="nature-strip">
+          <a class="nature-tile" href="/biodiversity.html?species=Ficus%20religiosa">
+            <img src="/assets/images/species/ficus_religiosa-1.jpg" alt="Sacred fig tree" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>Sacred Fig</strong><em>Ficus religiosa</em><span>3 photos &amp; sources</span></span>
+          </a>
+          <a class="nature-tile" href="/biodiversity.html?species=Nelumbo%20nucifera">
+            <img src="/assets/images/species/nelumbo_nucifera-2.jpg" alt="Sacred lotus flower" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>Sacred Lotus</strong><em>Nelumbo nucifera</em><span>3 photos &amp; sources</span></span>
+          </a>
+          <a class="nature-tile" href="/biodiversity.html?species=Pavo%20cristatus">
+            <img src="/assets/images/species/pavo_cristatus-1.jpg" alt="Indian peafowl" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>Indian Peafowl</strong><em>Pavo cristatus</em><span>3 photos &amp; sources</span></span>
+          </a>
+          <a class="nature-tile" href="/biodiversity.html?species=Halcyon%20smyrnensis">
+            <img src="/assets/images/species/halcyon_smyrnensis-1.jpg" alt="White-throated kingfisher" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>White-throated Kingfisher</strong><em>Halcyon smyrnensis</em><span>3 photos &amp; sources</span></span>
+          </a>
+          <a class="nature-tile" href="/biodiversity.html?species=Bubulcus%20ibis">
+            <img src="/assets/images/species/bubulcus_ibis-1.jpg" alt="Cattle egret" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>Cattle Egret</strong><em>Bubulcus ibis</em><span>3 photos &amp; sources</span></span>
+          </a>
+          <a class="nature-tile" href="/biodiversity.html?species=Delonix%20regia">
+            <img src="/assets/images/species/delonix_regia-1.jpg" alt="Gulmohar tree in flower" loading="lazy" decoding="async" />
+            <span class="nature-body"><strong>Gulmohar</strong><em>Delonix regia</em><span>3 photos &amp; sources</span></span>
+          </a>
+        </div>
+        <p class="tiny muted" style="margin-top:14px">
+          Species photographs are from Wikimedia Commons; open a card to see the photographer, licence and source file.
         </p>
       </div>
     </section>

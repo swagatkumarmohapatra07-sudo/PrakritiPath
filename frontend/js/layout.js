@@ -15,10 +15,17 @@
     { href: "/about.html", label: "About Project", icon: "info" },
   ];
 
+  // The mark combines the Konark Sun Temple chariot wheel with a leaf in the
+  // hub: Odisha's cultural signature and the biodiversity subject of the app.
   const LOGO = `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-    <path d="M25.5 6.5c-7.8-1.4-14 2.4-15.3 8.4-.8 3.7 1.6 7.3 5.2 7.7 6.1.7 10-4.4 10.1-16.1Z" fill="currentColor" opacity=".92"/>
-    <path d="M9 26c1.2-6.8 4.4-11.2 9.4-13.6" stroke="#0f3d2e" stroke-width="1.7" stroke-linecap="round"/>
-    <path d="M6 26.5h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+    <circle cx="16" cy="16" r="13.1" stroke="currentColor" stroke-width="2"/>
+    <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="0.9" opacity=".55"/>
+    <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <path d="M16 2.9v8M16 21.1v8M2.9 16h8M21.1 16h8"/>
+      <path d="M6.7 6.7l5.7 5.7M19.6 19.6l5.7 5.7M25.3 6.7l-5.7 5.7M12.4 19.6l-5.7 5.7"/>
+    </g>
+    <circle cx="16" cy="16" r="3.7" fill="currentColor"/>
+    <path d="M16 13.2c2 .7 3.2 2 3.2 3.6 0 1.5-1.1 2.7-3.2 3.1-2.1-.4-3.2-1.6-3.2-3.1 0-1.6 1.2-2.9 3.2-3.6Z" fill="#fff8e9" opacity=".94"/>
   </svg>`;
 
   function currentPath() {
@@ -54,7 +61,7 @@
           <span class="brand-mark">${LOGO}</span>
           <span class="brand-text">
             <span class="brand-name">BioTrace</span>
-            <span class="brand-tag">Odisha · Culture, Biodiversity &amp; Tourism</span>
+            <span class="brand-tag">Odisha · Culture &amp; Nature</span>
           </span>
         </a>
         <nav aria-label="Primary navigation">
