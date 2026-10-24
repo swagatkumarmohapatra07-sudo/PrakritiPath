@@ -19,11 +19,42 @@
   font-display: swap;
 }
 
+/* The wordmark face: a high-contrast display serif with an Indian editorial
+   character. Used only for the "My Utkal Heritage" lockup and loader. */
+@font-face {
+  font-family: "Rozha One";
+  src: url("../assets/fonts/rozha-one-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Small caps and editorial labels — inscriptional, quiet, heritage-leaning. */
+@font-face {
+  font-family: "Marcellus";
+  src: url("../assets/fonts/marcellus-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* A proper Odia serif so the Odia name renders consistently on every platform. */
+@font-face {
+  font-family: "Noto Serif Oriya";
+  src: url("../assets/fonts/noto-serif-oriya.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
 
   --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-brand: "Rozha One", "Fraunces", Georgia, serif;
+  --font-editorial: "Marcellus", "Fraunces", Georgia, serif;
+  --font-odia: "Noto Serif Oriya", "Nirmala UI", "Kalinga", var(--font-body);
 
   --ink: #0d211a;
   --ink-soft: #34524a;
@@ -326,7 +357,7 @@ a:hover { color: var(--emerald); }
   height: var(--nav-height);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(8px, 1vw, 16px);
 }
 
 .brand {
@@ -338,6 +369,7 @@ a:hover { color: var(--emerald); }
   font-weight: 800;
   letter-spacing: -0.02em;
   flex-shrink: 0;
+  min-width: 0;
 }
 .brand:hover { color: var(--text); }
 .brand-mark {
@@ -352,8 +384,15 @@ a:hover { color: var(--emerald); }
   flex-shrink: 0;
 }
 .brand-mark svg { width: 22px; height: 22px; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
-.brand-name { font-size: 1.16rem; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
+.brand-name {
+  font-family: var(--font-brand);
+  font-size: clamp(1.02rem, 0.9rem + 0.34vw, 1.28rem);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1;
+  white-space: nowrap;
+}
 .brand-tag { font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-top: 3px; }
 
 .nav-links {
@@ -366,12 +405,13 @@ a:hover { color: var(--emerald); }
 }
 
 .nav-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 9px 13px;
+  padding: 9px clamp(7px, 0.75vw, 13px);
   border-radius: var(--radius-pill);
-  font-size: 0.84rem;
+  font-size: clamp(0.76rem, 0.68rem + 0.16vw, 0.85rem);
   font-weight: 600;
   color: var(--text-soft);
   text-decoration: none;
@@ -383,10 +423,22 @@ a:hover { color: var(--emerald); }
   color: var(--emerald-deep);
   background: color-mix(in srgb, var(--emerald) 11%, transparent);
 }
+.nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateX(-50%);
+  opacity: 0.8;
+}
 [data-theme="dark"] .nav-link:hover,
 [data-theme="dark"] .nav-link[aria-current="page"] { color: var(--emerald); }
 
-.nav-actions { display: flex; align-items: center; gap: 10px; margin-left: 8px; }
+.nav-actions { display: flex; align-items: center; gap: 10px; margin-left: 8px; flex-shrink: 0; }
 
 .icon-btn {
   width: 42px;
@@ -405,32 +457,90 @@ a:hover { color: var(--emerald); }
 
 .nav-toggle { display: none; }
 
+/* The mobile menu is a full-height drawer so long link lists never get clipped
+   on short laptop screens or landscape phones. */
+.nav-backdrop {
+  position: fixed;
+  inset: var(--nav-height) 0 0;
+  z-index: 898;
+  background: rgba(24, 11, 6, 0.46);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s var(--ease), visibility 0.28s;
+}
+.nav-backdrop.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+body.menu-open { overflow: hidden; }
+
 .mobile-nav {
   position: fixed;
-  inset: var(--nav-height) 0 auto 0;
   z-index: 899;
-  background: var(--nav-bg);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
-  padding: 14px 24px 22px;
-  display: none;
-  max-height: calc(100vh - var(--nav-height));
+  top: var(--nav-height);
+  right: 0;
+  bottom: 0;
+  width: min(430px, 94vw);
+  padding: 18px 20px calc(24px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--nav-bg);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border-left: 1px solid var(--line);
+  box-shadow: -30px 0 70px -40px rgba(29, 13, 7, 0.55);
+  transform: translateX(103%);
+  visibility: hidden;
+  transition: transform 0.34s var(--ease), visibility 0.34s;
 }
-.mobile-nav.is-open { display: block; animation: slideDown 0.28s var(--ease); }
+.mobile-nav.is-open { transform: none; visibility: visible; }
+
+.mobile-nav-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-nav-head .brand { pointer-events: none; }
+.mobile-nav-title {
+  font-family: var(--font-editorial);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.mobile-nav nav { flex: 1; }
 .mobile-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-.mobile-nav a {
+.mobile-nav nav a {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 13px 14px;
+  padding: 12px 14px;
   border-radius: 12px;
   color: var(--text-soft);
   text-decoration: none;
+  font-size: 0.94rem;
   font-weight: 600;
 }
-.mobile-nav a:hover, .mobile-nav a[aria-current="page"] { background: var(--mint-soft); color: var(--emerald-deep); }
-.mobile-nav .btn { margin-top: 12px; width: 100%; justify-content: center; }
+.mobile-nav nav a svg { width: 18px; height: 18px; color: var(--text-muted); }
+.mobile-nav nav a:hover, .mobile-nav nav a[aria-current="page"] { background: var(--mint-soft); color: var(--emerald-deep); }
+.mobile-nav-actions { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
+.mobile-nav-actions .btn { width: 100%; justify-content: center; }
+.mobile-nav-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.mobile-nav-foot .brand-odia { font-size: 0.86rem; color: var(--coral); }
+
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }

@@ -31,6 +31,19 @@
   const ODIA_NAME = "ମୋ ଉତ୍କଳ ଐତିହ୍ୟ";
   const SLOGAN = "Discover Our Roots. Explore Our Treasures.";
 
+  // The masthead lockup. "Utkal" carries the gold/terracotta gradient defined in
+  // odisha.css; the Odia line uses the bundled Noto Serif Oriya face.
+  function brandMarkup(extraClass) {
+    return `<a class="brand${extraClass ? ` ${extraClass}` : ""}" href="/" aria-label="My Utkal Heritage — home">
+      <span class="brand-mark">${LOGO}</span>
+      <span class="brand-text">
+        <span class="brand-name"><span class="brand-my">My</span><span class="brand-utkal">Utkal</span> <span class="brand-heritage">Heritage</span></span>
+        <span class="brand-tag brand-odia" lang="or">${ODIA_NAME}</span>
+      </span>
+    </a>`;
+  }
+
+
   // The loader is a full-screen brand moment built around the Konark wheel.
   function mountLoader() {
     if (!document.body || document.getElementById("bt-loader")) return;
@@ -59,11 +72,13 @@
       window.setTimeout(() => loader.remove(), 700);
     };
     if (document.readyState === "complete") {
-      window.setTimeout(hide, 350);
+      window.setTimeout(hide, 250);
     } else {
-      window.addEventListener("load", () => window.setTimeout(hide, 450), { once: true });
+      window.addEventListener("load", () => window.setTimeout(hide, 300), { once: true });
+      document.addEventListener("DOMContentLoaded", () => window.setTimeout(hide, 850), { once: true });
     }
-    window.setTimeout(hide, 6000);
+    // Never let a slow image or a stalled request trap the interface behind the loader.
+    window.setTimeout(hide, 1400);
   }
 
   function currentPath() {
@@ -95,18 +110,12 @@
     host.innerHTML = `
       <a class="skip-link" href="#main">Skip to main content</a>
       <div class="container nav">
-        <a class="brand" href="/" aria-label="My Utkal Heritage — home">
-          <span class="brand-mark">${LOGO}</span>
-          <span class="brand-text">
-            <span class="brand-name">My Utkal Heritage</span>
-            <span class="brand-tag brand-odia" lang="or">${ODIA_NAME}</span>
-          </span>
-        </a>
-        <nav aria-label="Primary navigation">
+        ${brandMarkup()}
+        <nav class="nav-main" aria-label="Primary navigation">
           <ul class="nav-links">${navMarkup(false)}</ul>
         </nav>
         <div class="nav-actions">
-          <a class="btn btn-primary btn-sm" href="/map.html">${BT.icon("map")}Explore map</a>
+          <a class="btn btn-primary btn-sm nav-map-link" href="/map.html">${BT.icon("map")}Explore map</a>
           <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
             <i data-lucide="moon" aria-hidden="true"></i>
           </button>
@@ -117,19 +126,39 @@
         </div>
       </div>
       <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
-      <div class="mobile-nav" id="mobile-nav">
+      <aside class="mobile-nav" id="mobile-nav" aria-label="Site menu" aria-hidden="true">
+        <div class="mobile-nav-head">
+          ${brandMarkup()}
+          <button class="icon-btn" id="nav-close" type="button" aria-label="Close navigation menu">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
         <nav aria-label="Mobile navigation">
           <ul>${navMarkup(true)}</ul>
         </nav>
-        <a class="btn btn-primary" href="/map.html">${BT.icon("map")}Open interactive map</a>
-        <a class="btn btn-secondary" href="/tourism.html?category=cultural">${BT.icon("landmark")}Explore Odisha culture</a>
-      </div>
+        <div class="mobile-nav-actions">
+          <a class="btn btn-primary" href="/map.html">${BT.icon("map")}Open interactive map</a>
+          <a class="btn btn-secondary" href="/tourism.html?category=cultural">${BT.icon("landmark")}Explore Odisha culture</a>
+        </div>
+        <div class="mobile-nav-foot">
+          <span class="brand-odia" lang="or">${ODIA_NAME}</span>
+          <span>${SLOGAN}</span>
+        </div>
+      </aside>
       <div id="header-observer" aria-hidden="true"></div>`;
     host.classList.add("site-header");
     host.id = "site-header";
     host.setAttribute("data-site-header", "true");
     host.style.position = "sticky";
+
+    // The sticky header uses backdrop-filter, which creates a containing block
+    // for fixed children. Move the drawer out so it always fills the viewport.
+    ["#nav-backdrop", "#mobile-nav"].forEach((selector) => {
+      const node = host.querySelector(selector);
+      if (node) document.body.appendChild(node);
+    });
   }
+
 
   function buildFooter() {
     const host = document.getElementById("site-footer");
@@ -139,13 +168,7 @@
       <div class="container">
         <div class="footer-grid">
           <div>
-            <a class="brand" href="/">
-              <span class="brand-mark">${LOGO}</span>
-              <span class="brand-text">
-                <span class="brand-name">My Utkal Heritage</span>
-                <span class="brand-tag brand-odia" lang="or">${ODIA_NAME}</span>
-              </span>
-            </a>
+            ${brandMarkup()}
             <p class="footer-slogan" lang="en">${SLOGAN}</p>
             <p class="footer-about">
               A final-year B.Tech CSE (Data Science) project exploring whether
@@ -241,9 +264,36 @@
     const toggle = document.getElementById("nav-toggle");
     const panel = document.getElementById("mobile-nav");
     const backdrop = document.getElementById("nav-backdrop");
+    const closeBtn = document.getElementById("nav-close");
     if (!toggle || !panel) return;
-    const close = () => {
+
+    const desktop = window.matchMedia("(min-width: 1081px)");
+    let returnFocus = null;
+
+    const focusables = () =>
+      Array.from(
+        panel.querySelectorAll('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      ).filter((el) => el.offsetParent !== null);
+
+    function open() {
+      returnFocus = document.activeElement;
+      panel.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+      if (backdrop) {
+        backdrop.classList.add("is-open");
+        backdrop.setAttribute("aria-hidden", "false");
+      }
+      document.body.classList.add("menu-open");
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.innerHTML = '<i data-lucide="x" aria-hidden="true"></i>';
+      BT.refreshIcons();
+      const first = focusables()[0];
+      if (first) window.setTimeout(() => first.focus({ preventScroll: true }), 60);
+    }
+
+    function close({ restoreFocus = true } = {}) {
       panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
       if (backdrop) {
         backdrop.classList.remove("is-open");
         backdrop.setAttribute("aria-hidden", "true");
@@ -252,30 +302,47 @@
       toggle.setAttribute("aria-expanded", "false");
       toggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
       BT.refreshIcons();
-    };
-    toggle.addEventListener("click", () => {
-      const open = panel.classList.toggle("is-open");
-      if (backdrop) {
-        backdrop.classList.toggle("is-open", open);
-        backdrop.setAttribute("aria-hidden", String(!open));
+      if (restoreFocus && returnFocus && typeof returnFocus.focus === "function") {
+        returnFocus.focus({ preventScroll: true });
       }
-      document.body.classList.toggle("menu-open", open);
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.innerHTML = open
-        ? '<i data-lucide="x" aria-hidden="true"></i>'
-        : '<i data-lucide="menu" aria-hidden="true"></i>';
-      BT.refreshIcons();
+      returnFocus = null;
+    }
+
+    toggle.addEventListener("click", () => {
+      if (panel.classList.contains("is-open")) close();
+      else open();
     });
+    if (closeBtn) closeBtn.addEventListener("click", () => close());
     panel.addEventListener("click", (event) => {
-      if (event.target.closest("a")) close();
+      if (event.target.closest("a")) close({ restoreFocus: false });
     });
-    if (backdrop) backdrop.addEventListener("click", close);
+    if (backdrop) backdrop.addEventListener("click", () => close());
+
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") close();
+      if (!panel.classList.contains("is-open")) return;
+      if (event.key === "Escape") {
+        close();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     });
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 1240) close();
-    });
+
+    const handleViewport = () => {
+      if (desktop.matches && panel.classList.contains("is-open")) close({ restoreFocus: false });
+    };
+    if (desktop.addEventListener) desktop.addEventListener("change", handleViewport);
+    else desktop.addListener(handleViewport);
   }
 
   function setupScrollShadow() {

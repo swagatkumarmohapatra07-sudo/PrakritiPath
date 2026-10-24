@@ -7,6 +7,8 @@
   <meta name="description" content="My Utkal Heritage is an academic project exploring Odisha's living culture and biodiversity, pairing an honest guide to places with uncertainty-aware plant and bird identification." />
   <meta name="theme-color" content="#54251b" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/rozha-one-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/noto-serif-oriya.woff2" crossorigin />
   <script src="/js/theme.js"></script>
   <link rel="preload" as="image" href="/assets/images/konark-wheel.jpg" />
   <link rel="preload" as="image" href="/assets/images/odissi.jpg" />
@@ -30,8 +32,7 @@
           <h1>Discover our roots.<br /><em>Explore our treasures.</em></h1>
           <p class="lede">
             From the Konark wheel to Chilika's birds: a culturally grounded guide to Odisha's
-            temples, crafts, forests and wetlands, paired with a plant and bird identifier that
-            says when it is unsure.
+            temples, crafts, forests and wetlands, with an identifier that says when it is unsure.
           </p>
           <form class="hero-search" id="hero-search" role="search">
             <div class="search-field">
@@ -53,11 +54,11 @@
             <button type="button" data-suggest="museum">museums</button>
           </div>
           <div class="hero-ctas">
-            <a class="btn btn-primary btn-lg" href="/biodiversity.html">
-              <i data-lucide="scan-eye" aria-hidden="true"></i>Identify a plant or bird
-            </a>
-            <a class="btn btn-secondary btn-lg" href="/tourism.html">
+            <a class="btn btn-primary btn-lg" href="/tourism.html">
               <i data-lucide="compass" aria-hidden="true"></i>Explore Odisha
+            </a>
+            <a class="btn btn-secondary btn-lg" href="/biodiversity.html">
+              <i data-lucide="scan-eye" aria-hidden="true"></i>Identify a plant or bird
             </a>
           </div>
           <div class="hero-note">
@@ -71,26 +72,147 @@
             <span lang="or">ଚିଲିକା</span>
           </div>
         </div>
-        <div class="hero-visual" id="hero-visual">
-          <img class="hero-art" src="/assets/images/odissi.jpg"
-               alt="Odissi dancer in traditional Odisha costume" fetchpriority="high" decoding="async" />
-          <figure class="hero-collage">
-            <img src="/assets/images/pattachitra.jpg"
-                 alt="A Pattachitra artist painting a traditional scroll in Odisha"
-                 loading="lazy" decoding="async" />
-            <figcaption>Pattachitra · Raghurajpur</figcaption>
-          </figure>
-          <div class="hero-float one">
-            <span class="float-icon"><i data-lucide="leaf" aria-hidden="true"></i></span>
-            <span><strong id="float-species">Species catalogue</strong><span>curated reference list</span></span>
+
+        <div class="hero-showcase">
+          <p class="hero-showcase-label"><span class="live-dot" aria-hidden="true"></span>Odisha in motion</p>
+          <div class="hero-gallery" id="hero-gallery" role="group"
+               aria-label="Odisha highlights: places, sport, cinema and festivals">
+            <div class="hero-wheel" aria-hidden="true">
+              <span class="hero-wheel-ring"></span>
+              <span class="hero-wheel-ring inner"></span>
+              <span class="hero-wheel-spokes"></span>
+            </div>
+
+            <div class="hero-stage" role="tabpanel" id="hero-stage-panel" aria-live="polite" aria-atomic="true"
+                 aria-labelledby="hero-tab-0">
+              <img class="hero-stage-img" id="hero-stage-img"
+                   src="/assets/images/odissi.jpg"
+                   alt="Odissi dancer Sujata Mohapatra in traditional Odisha costume"
+                   fetchpriority="high" decoding="async" />
+              <div class="hero-stage-meta">
+                <span class="hero-stage-kicker" id="hero-stage-kicker">Classical dance</span>
+                <a class="hero-stage-title" id="hero-stage-link" href="/tourism.html?category=cultural">
+                  <span id="hero-stage-title">Odissi</span>
+                  <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+                </a>
+                <span class="hero-stage-odia" id="hero-stage-odia" lang="or">ଓଡ଼ିଶୀ</span>
+              </div>
+            </div>
+
+            <div class="hero-ring" id="hero-ring" role="tablist" aria-label="Choose a highlight">
+              <button class="hero-ring-item is-active" type="button" role="tab" aria-selected="true" tabindex="0"
+                      id="hero-tab-0" aria-label="Odissi — classical dance"
+                      style="--i:0" data-hero-item
+                      data-src="/assets/images/odissi.jpg"
+                      data-title="Odissi" data-kicker="Classical dance" data-odia="ଓଡ଼ିଶୀ"
+                      data-href="/tourism.html?category=cultural"
+                      data-alt="Odissi dancer Sujata Mohapatra in traditional Odisha costume">
+                <img src="/assets/images/odissi.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-1" aria-label="Konark Sun Temple — temple heritage"
+                      style="--i:1" data-hero-item
+                      data-src="/assets/images/konark-wheel.jpg"
+                      data-title="Konark Sun Temple" data-kicker="Temple heritage" data-odia="କୋଣାର୍କ"
+                      data-href="/destination.html?slug=konark-sun-temple"
+                      data-alt="Carved stone wheel of the Konark Sun Temple">
+                <img src="/assets/images/konark-wheel.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-2" aria-label="Jagannath Temple, Puri — faith and festival"
+                      style="--i:2" data-hero-item
+                      data-src="/assets/images/hero/puri-temple.jpg"
+                      data-title="Jagannath Temple, Puri" data-kicker="Faith &amp; festival" data-odia="ପୁରୀ"
+                      data-href="/destination.html?slug=jagannath-temple-puri"
+                      data-alt="Jagannath Temple illuminated at night in Puri">
+                <img src="/assets/images/hero/puri-temple.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-3" aria-label="Kalinga Hockey Stadium — world hockey"
+                      style="--i:3" data-hero-item
+                      data-src="/assets/images/hero/kalinga-hockey.jpg"
+                      data-title="Kalinga Hockey Stadium" data-kicker="World hockey" data-odia="କଳିଙ୍ଗ ହକି"
+                      data-href="/map.html"
+                      data-alt="Blue astroturf and red gallery of Kalinga Hockey Stadium, Bhubaneswar">
+                <img src="/assets/images/hero/kalinga-hockey.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-4" aria-label="Barabati Stadium — cricket in Cuttack"
+                      style="--i:4" data-hero-item
+                      data-src="/assets/images/hero/barabati-stadium.jpg"
+                      data-title="Barabati Stadium" data-kicker="Cricket in Cuttack" data-odia="ବାରବାଟୀ"
+                      data-href="/map.html"
+                      data-alt="Floodlit Barabati Stadium during a cricket match in Cuttack">
+                <img src="/assets/images/hero/barabati-stadium.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-5" aria-label="Rath Yatra — chariot festival"
+                      style="--i:5" data-hero-item
+                      data-src="/assets/images/rath-yatra.jpg"
+                      data-title="Rath Yatra" data-kicker="Chariot festival" data-odia="ରଥଯାତ୍ରା"
+                      data-href="/destination.html?slug=jagannath-temple-puri"
+                      data-alt="Chariots during the Rath Yatra festival in Puri">
+                <img src="/assets/images/rath-yatra.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-6" aria-label="Ollywood — Odia cinema"
+                      style="--i:6" data-hero-item
+                      data-src="/assets/images/hero/odia-actor.jpg"
+                      data-title="Ollywood" data-kicker="Odia cinema" data-odia="ଓଲିଉଡ଼"
+                      data-href="/tourism.html?category=cultural"
+                      data-alt="Odia actor Samaresh Routray at a public event">
+                <img src="/assets/images/hero/odia-actor.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-7" aria-label="Bali Jatra — the river fair of Cuttack"
+                      style="--i:7" data-hero-item
+                      data-src="/assets/images/hero/bali-jatra.jpg"
+                      data-title="Bali Jatra" data-kicker="Cuttack river fair" data-odia="ବାଲିଯାତ୍ରା"
+                      data-href="/tourism.html?category=cultural"
+                      data-alt="Illuminated boat-shaped gate at Bali Jatra in Cuttack">
+                <img src="/assets/images/hero/bali-jatra.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-8" aria-label="Chilika Lake — lagoon and birds"
+                      style="--i:8" data-hero-item
+                      data-src="/assets/images/chilika.jpg"
+                      data-title="Chilika Lake" data-kicker="Lagoon &amp; birds" data-odia="ଚିଲିକା"
+                      data-href="/destination.html?slug=chilika-lake"
+                      data-alt="Chilika Lake in Odisha">
+                <img src="/assets/images/chilika.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+              <button class="hero-ring-item" type="button" role="tab" aria-selected="false" tabindex="-1"
+                      id="hero-tab-9" aria-label="Pattachitra — living craft"
+                      style="--i:9" data-hero-item
+                      data-src="/assets/images/pattachitra.jpg"
+                      data-title="Pattachitra" data-kicker="Living craft" data-odia="ପଟ୍ଟଚିତ୍ର"
+                      data-href="/destination.html?slug=raghurajpur-heritage-craft-village"
+                      data-alt="Pattachitra artist painting a traditional scroll in Odisha">
+                <img src="/assets/images/pattachitra.jpg" alt="" loading="lazy" decoding="async" />
+              </button>
+            </div>
           </div>
-          <div class="hero-float two">
-            <span class="float-icon"><i data-lucide="map-pin" aria-hidden="true"></i></span>
-            <span><strong id="float-districts">Odisha districts</strong><span>places in the explorer</span></span>
+
+          <div class="hero-showcase-foot">
+            <div class="hero-chips">
+              <span class="hero-chip"><i data-lucide="leaf" aria-hidden="true"></i><strong id="float-species">0</strong> species catalogued</span>
+              <span class="hero-chip"><i data-lucide="map-pin" aria-hidden="true"></i><strong id="float-districts">0</strong> districts mapped</span>
+            </div>
+            <div class="hero-controls">
+              <span class="hero-count" aria-hidden="true"><span id="hero-count-current">01</span> / <span id="hero-count-total">10</span></span>
+              <button class="hero-control" type="button" data-hero-prev aria-label="Previous highlight">
+                <i data-lucide="arrow-left" aria-hidden="true"></i>
+              </button>
+              <button class="hero-control" type="button" data-hero-next aria-label="Next highlight">
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+              <button class="hero-control" type="button" data-hero-play aria-label="Pause automatic highlights" aria-pressed="false">
+                <i data-lucide="pause" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
-          <span class="hero-badge"><span class="live-dot"></span><span>Live project data</span></span>
           <p class="hero-credit">
-            Odissi &amp; Pattachitra photographs · Wikimedia Commons ·
+            Photographs · Wikimedia Commons ·
             <a href="/about.html#credits">credits</a>
           </p>
         </div>
