@@ -1,0 +1,11 @@
+# Local-only artefacts that must not be uploaded to Vercel builds.
+# Root-anchored: backend/app/data IS required at runtime (seed catalogues).
+/.pytest_cache/
+/backend/tests/
+**/__pycache__/
+/data/
+/models/
+/docs/
+/requirements-ai.txt
+/requirements-dev.txt
+/pytest.ini

@@ -10,11 +10,12 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from .data.categories import CATEGORY_BY_SLUG
-from .models import AdminUser, Species, TourismDestination
+from .models import AdminUser, DestinationImage, Species, TourismDestination
 from .security import hash_password, verify_password
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 SPECIES_FILE = DATA_DIR / "species_seed.json"
+IMAGES_FILE = DATA_DIR / "destination_images.json"
 
 
 def seed_species(db: Session) -> int:
@@ -118,6 +119,59 @@ def _slug(name: str) -> str:
     return re.sub(r"-{2,}", "-", value)
 
 
+def seed_destination_images(db: Session) -> int:
+    """Attach open-source photographs recorded in ``destination_images.json``.
+
+    Only destinations that have no images yet are filled, so a reviewer can
+    curate a gallery without it being overwritten on the next boot.
+
+    Every committed image must carry a file page, an author and a licence;
+    records missing provenance are skipped rather than displayed uncredited.
+    """
+    if not IMAGES_FILE.exists():
+        return 0
+
+    payload = json.loads(IMAGES_FILE.read_text(encoding="utf-8"))
+    places: dict[str, list[dict]] = payload.get("places", {})
+    if not places:
+        return 0
+
+    destinations = {
+        item.slug: item
+        for item in db.scalars(
+            select(TourismDestination).where(TourismDestination.slug.in_(list(places)))
+        ).all()
+    }
+
+    created = 0
+    for slug, images in places.items():
+        destination = destinations.get(slug)
+        if destination is None or destination.images:
+            continue
+        for order, image in enumerate(images[:8]):
+            if not (image.get("url") and image.get("page_url") and image.get("licence")):
+                continue
+            db.add(
+                DestinationImage(
+                    destination_id=destination.id,
+                    url=image["url"],
+                    thumbnail_url=image.get("thumbnail_url"),
+                    page_url=image["page_url"],
+                    title=image.get("title"),
+                    credit=image.get("credit"),
+                    licence=image["licence"],
+                    licence_url=image.get("licence_url"),
+                    width=image.get("width"),
+                    height=image.get("height"),
+                    sort_order=order,
+                    source_name=image.get("source_name", "Wikimedia Commons"),
+                )
+            )
+            created += 1
+    db.commit()
+    return created
+
+
 def ensure_admin(db: Session, username: str, password: str) -> bool:
     """Create the admin account if it does not exist.
 
@@ -134,9 +188,11 @@ def ensure_admin(db: Session, username: str, password: str) -> bool:
 def seed_all(db: Session, admin_username: str, admin_password: str) -> dict[str, int]:
     species = seed_species(db)
     destinations = seed_destinations(db)
+    images = seed_destination_images(db)
     admin = ensure_admin(db, admin_username, admin_password)
     return {
         "species_created": species,
         "destinations_created": destinations,
+        "images_created": images,
         "admin_created": int(admin),
     }

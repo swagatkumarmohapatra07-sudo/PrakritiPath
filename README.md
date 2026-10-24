@@ -14,6 +14,8 @@ unavailable instead of inventing a result.
   enrichment.
 - **Biodiversity explorer** — browse and filter seeded species records.
 - **Odisha tourism discovery** — destinations, categories, map view, and itinerary planning.
+- **Open-source photo galleries** — each place can show several credited Wikimedia
+  Commons photographs, with a lightbox, licence links and graceful fallback art.
 - **Itineraries & favourites** — saved per browser session (`X-Session-Id`).
 - **Admin review console** — moderate submitted reports behind basic auth.
 - **Interactive API docs** at `/docs` and `/redoc`.
@@ -127,9 +129,38 @@ favourites and itineraries, admin auth/review flows, geo helpers and seed-data i
 | `docs/MODEL_TRAINING.md` | Model artifact contract, training and abstention threshold |
 | `docs/LIMITATIONS.md` | Scientific, data, privacy and operational limits |
 | `backend/scripts/import_tourism.py` | Import/geocode `tourism_seed_*.jsonl` |
+| `backend/scripts/fetch_images.py` | Fetch credited Wikimedia Commons photos per place |
 | `backend/scripts/train_classifier.py` | Train a MobileNetV3 classifier for BioTrace |
 | `backend/scripts/evaluate.py` | Score the image-quality heuristics on a labelled probe set |
 | `backend/scripts/migrate.py` | Schema drift check and Alembic bootstrap |
+
+## Deploying to Vercel
+
+Vercel's Python runtime serves the whole app (API + static frontend) as one
+FastAPI function. The root `index.py` file re-exports the ASGI `app`; Vercel
+detects FastAPI from `requirements.txt` and requires no extra configuration.
+
+```bash
+vercel link                 # create/connect the project
+vercel deploy --prod        # deploy to production
+```
+
+Set these environment variables in the Vercel project (they are required because
+the function filesystem is read-only):
+
+| Variable | Value | Why |
+| -------- | ----- | --- |
+| `BIOTRACE_ENV` | `production` | Marks a non-development deployment |
+| `DATABASE_URL` | `sqlite:////tmp/biotrace.db` | SQLite needs a writable path |
+| `UPLOAD_DIR` | `/tmp/uploads` | Uploaded photos need a writable path |
+| `MODEL_DIR` | `/tmp/models` | No models are bundled; the API reports them as unavailable |
+| `BIOTRACE_SECRET_KEY` | long random string | Session hashing |
+| `ADMIN_PASSWORD` | strong password | Admin review console |
+
+> **Limitation:** `/tmp` is per-instance and ephemeral on Vercel. The database is
+> seeded on every cold start, so reports, favourites and uploads are not durable
+> across instances. For production use, point `DATABASE_URL` at a managed
+> Postgres/Neon database and move uploads to Vercel Blob.
 
 ## Notes
 

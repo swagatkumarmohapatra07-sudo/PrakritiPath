@@ -89,6 +89,11 @@ class DestinationBase(BaseModel):
     image_reference: str | None = None
     image_credit: str | None = None
     image_licence: str | None = None
+    # Cover photograph resolved from the destination_images table.
+    cover_image: str | None = None
+    cover_image_thumbnail: str | None = None
+    cover_image_credit: str | None = None
+    cover_image_licence: str | None = None
     source_url: str | None = None
     source_name: str | None = None
     licence_information: str | None = None
@@ -120,9 +125,25 @@ class DestinationBase(BaseModel):
         return list(value)
 
 
+class DestinationImageOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    url: str
+    thumbnail_url: str | None = None
+    page_url: str
+    title: str | None = None
+    credit: str | None = None
+    licence: str | None = None
+    licence_url: str | None = None
+    width: int | None = None
+    height: int | None = None
+    source_name: str = "Wikimedia Commons"
+
+
 class DestinationOut(DestinationBase):
     nearby: list["DestinationNearby"] = Field(default_factory=list)
     data_gaps: list[str] = Field(default_factory=list)
+    images: list[DestinationImageOut] = Field(default_factory=list)
 
 
 class DestinationNearby(BaseModel):

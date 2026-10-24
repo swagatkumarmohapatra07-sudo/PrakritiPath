@@ -45,6 +45,20 @@ do**, but the honesty is only useful if the limits are written down.
   the public API.
 - There is no user account system and no third-party analytics.
 
+## Photographs
+
+- Destination photos come from **Wikimedia Commons** and are reused under their own
+  free licences (CC0, public domain, CC BY, CC BY-SA). Each photo is credited in the
+  gallery and links to its file page; that attribution must not be removed if the
+  images are reused elsewhere.
+- Images are hot-linked from `upload.wikimedia.org`, so they need network access.
+  When a photo fails to load the UI falls back to generated category artwork.
+- A photo shows the place as a contributor photographed it, possibly years ago and
+  possibly from an angle that hides current conditions. It is illustrative, not a
+  guarantee of what a visitor will see.
+- Places with no suitable free photograph are left without images rather than being
+  filled with an unrelated or non-free picture.
+
 ## Operational limitations
 
 - **Single process.** Rate limiting is an in-memory sliding window

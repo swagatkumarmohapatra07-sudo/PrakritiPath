@@ -88,9 +88,14 @@ class Settings:
 settings = Settings()
 
 # Directories created eagerly so the app can boot on a fresh clone.
+# On read-only filesystems (for example Vercel Functions) creation is skipped;
+# point UPLOAD_DIR/MODEL_DIR/DATABASE_URL at a writable location such as /tmp.
 for directory in (
     settings.upload_dir,
     settings.model_dir,
     PROJECT_ROOT / "data",
 ):
-    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except OSError:  # pragma: no cover - only on read-only serverless filesystems
+        pass

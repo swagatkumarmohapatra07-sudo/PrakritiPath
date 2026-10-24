@@ -81,6 +81,65 @@ Rules enforced by the importer and tests:
   ticket prices and contact details are never inferred — they stay `null` and the UI
   renders "Not verified".
 
+## Destination photographs
+
+Each destination can show a gallery of real photographs. The metadata lives in
+`backend/app/data/destination_images.json` (committed) and is loaded into the
+`destination_images` table on startup only when a place has no photos yet.
+
+```json
+{
+  "source": "Wikimedia Commons",
+  "places": {
+    "barabati-fort": [
+      {
+        "url": "https://thumb.wikimedia.org/.../1280px-...jpg",
+        "thumbnail_url": "https://thumb.wikimedia.org/.../1280px-...jpg",
+        "page_url": "https://commons.wikimedia.org/wiki/File:...",
+        "title": "Barabati fort, Cuttack, Odisha 02",
+        "credit": "Paramanu Sarkar",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "width": 1600,
+        "height": 900,
+        "source_name": "Wikimedia Commons"
+      }
+    ]
+  }
+}
+```
+
+**Provenance rules enforced by the importer and the tests:**
+
+- Only free licences are stored: CC0, public domain, CC BY and CC BY-SA.
+  Anything with "fair use", "non-free" or no licence is rejected.
+- `page_url` (the Commons file page) is mandatory — that is how attribution works.
+- CC BY / CC BY-SA images must have a `credit` (author). CC0/PD may omit it.
+- Non-photographic sources are rejected: PDF/DjVu/TIFF scans, documents,
+  magazines, maps, diagrams, logos and coats of arms.
+- Originals must be at least 1200×700 px. Landscape photos lead the gallery;
+  portrait shots are kept as a fallback.
+- A title-relevance guard rejects photos that do not share a specific name token
+  with the place, so an unrelated image cannot be attached.
+
+### Refreshing the galleries
+
+```bash
+# Fetch for every destination (one request/second, cached)
+python -m backend.scripts.fetch_images
+
+# Only some places, with more photos each
+python -m backend.scripts.fetch_images --only barabati-fort --only konark-sun-temple --per-place 6
+
+# Refetch places that already have images, then load into the current database
+python -m backend.scripts.fetch_images --refresh --write-db
+```
+
+Responses are cached in `data/cache/commons.json`. The script never invents an
+image: places with no suitable free photograph are left empty and listed in the
+run summary. Images are hot-linked from `upload.wikimedia.org` (allowed by the
+app's Content-Security-Policy) and each one links back to its Commons file page.
+
 ## Importing and geocoding
 
 ```bash

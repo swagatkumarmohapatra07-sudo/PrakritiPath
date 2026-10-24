@@ -7,7 +7,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import func, or_, select, text
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from ..data.categories import CATEGORY_BY_SLUG, CATEGORY_GROUPS, TOURISM_CATEGORIES
 from ..database import get_db
@@ -113,6 +113,7 @@ def home(db: Annotated[Session, Depends(get_db)]):
     )
     featured = db.scalars(
         select(TourismDestination)
+        .options(selectinload(TourismDestination.images))
         .where(TourismDestination.featured.is_(True))
         .order_by(TourismDestination.name)
         .limit(6)

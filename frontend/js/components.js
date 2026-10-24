@@ -8,15 +8,29 @@
   const BT = window.BT;
 
   /* ---------------------------------------------------------- Destination card */
+  BT.photoCredit = function (credit, licence) {
+    const parts = [credit, licence].filter(Boolean);
+    return parts.length ? parts.join(" · ") : "";
+  };
+
   BT.destinationCard = function (dest, options = {}) {
     const meta = BT.category(dest.category);
     const saved = BT.favouriteIds && BT.favouriteIds.has(dest.id);
     const place = [dest.locality, dest.city, dest.district].filter(Boolean).slice(0, 2).join(", ");
     const tags = (dest.tags || []).slice(0, 2);
+    const photo = dest.cover_image_thumbnail || dest.cover_image;
+    const credit = photo ? BT.photoCredit(dest.cover_image_credit, dest.cover_image_licence) : "";
     return `<article class="card destination-card" data-destination-id="${dest.id}">
       <a class="card-link" href="/destination.html?slug=${encodeURIComponent(dest.slug)}" aria-label="View ${BT.esc(dest.name)}">
         <div class="card-media">
           ${BT.categoryArt(dest.category)}
+          ${
+            photo
+              ? `<img class="card-photo" data-photo src="${BT.esc(photo)}" alt="${BT.esc(dest.name)}"
+                     loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                 ${credit ? `<span class="card-photo-credit">${BT.esc(credit)}</span>` : ""}`
+              : ""
+          }
           ${dest.featured ? `<span class="card-flag">${BT.icon("sparkles")}Featured</span>` : ""}
           <span class="save-btn ${saved ? "is-saved" : ""}" role="button" tabindex="0"
                 data-save-id="${dest.id}" aria-label="${saved ? "Remove from saved places" : "Save place"}"
@@ -456,4 +470,18 @@
       BT.errorToast(err);
     }
   };
+
+  /* ---------------------------------------------------------- Photo fallback */
+  // `error` does not bubble, so listen in the capture phase. A remote photo that
+  // fails to load is hidden and the category artwork underneath shows instead.
+  document.addEventListener(
+    "error",
+    (event) => {
+      const target = event.target;
+      if (target && target.tagName === "IMG" && target.hasAttribute("data-photo")) {
+        target.classList.add("photo-failed");
+      }
+    },
+    true
+  );
 })();

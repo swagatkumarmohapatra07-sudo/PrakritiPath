@@ -84,7 +84,8 @@ async def security_headers(request: Request, call_next):
     response.headers.setdefault(
         "Content-Security-Policy",
         "default-src 'self'; img-src 'self' data: blob: https://*.tile.openstreetmap.org "
-        "https://unpkg.com; style-src 'self' 'unsafe-inline'; script-src 'self'; "
+        "https://unpkg.com https://upload.wikimedia.org https://*.wikimedia.org; "
+        "style-src 'self' 'unsafe-inline'; script-src 'self'; "
         "font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'",
     )
     return response

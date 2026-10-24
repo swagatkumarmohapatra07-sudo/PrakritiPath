@@ -166,6 +166,32 @@ class TourismDestination(Base):
         DateTime(timezone=True), default=utcnow, onupdate=utcnow
     )
 
+    images: Mapped[list["DestinationImage"]] = relationship(
+        back_populates="destination",
+        cascade="all, delete-orphan",
+        order_by="DestinationImage.sort_order",
+    )
+
+    @property
+    def cover_image(self) -> str | None:
+        """First photograph, used by listing cards."""
+        return self.images[0].url if self.images else None
+
+    @property
+    def cover_image_thumbnail(self) -> str | None:
+        if not self.images:
+            return None
+        first = self.images[0]
+        return first.thumbnail_url or first.url
+
+    @property
+    def cover_image_credit(self) -> str | None:
+        return self.images[0].credit if self.images else None
+
+    @property
+    def cover_image_licence(self) -> str | None:
+        return self.images[0].licence if self.images else None
+
     __table_args__ = (
         CheckConstraint(
             "latitude IS NULL OR (latitude >= -90 AND latitude <= 90)", name="ck_dest_lat"
@@ -178,6 +204,42 @@ class TourismDestination(Base):
             name="ck_dest_status",
         ),
         Index("ix_dest_category_district", "category", "district"),
+    )
+
+
+class DestinationImage(Base):
+    """An open-source photograph for a tourism destination.
+
+    Every row carries the provenance needed for correct attribution: the file
+    page, the author, the licence name and the licence URL. Images are never
+    stored without a licence, and the public API exposes all of it so the UI can
+    credit the photographer.
+    """
+
+    __tablename__ = "destination_images"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    destination_id: Mapped[int] = mapped_column(
+        ForeignKey("tourism_destinations.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    url: Mapped[str] = mapped_column(Text, nullable=False)
+    thumbnail_url: Mapped[str | None] = mapped_column(Text)
+    page_url: Mapped[str] = mapped_column(Text, nullable=False)
+    title: Mapped[str | None] = mapped_column(String(255))
+    credit: Mapped[str | None] = mapped_column(Text)
+    licence: Mapped[str | None] = mapped_column(String(255))
+    licence_url: Mapped[str | None] = mapped_column(Text)
+    width: Mapped[int | None] = mapped_column(Integer)
+    height: Mapped[int | None] = mapped_column(Integer)
+    sort_order: Mapped[int] = mapped_column(Integer, default=0)
+    source_name: Mapped[str] = mapped_column(String(80), default="Wikimedia Commons")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    destination: Mapped["TourismDestination"] = relationship(back_populates="images")
+
+    __table_args__ = (
+        UniqueConstraint("destination_id", "url", name="uq_destination_image_url"),
+        CheckConstraint("sort_order >= 0", name="ck_destination_image_order"),
     )
 
 

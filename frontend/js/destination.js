@@ -27,10 +27,17 @@
     const meta = BT.category(dest.category);
     const saved = BT.favouriteIds && BT.favouriteIds.has(dest.id);
     const place = [dest.locality, dest.city, dest.district].filter(Boolean).join(", ");
-    return `<div class="detail-hero">
-      <div class="detail-art ${BT.art(dest.category)}">
+    const images = dest.images || [];
+    const hero = images[0];
+    return `<div class="detail-hero ${hero ? "has-photo" : ""}">
+      ${
+        hero
+          ? `<img class="detail-hero-photo" data-photo src="${BT.esc(hero.url)}"
+                 alt="${BT.esc(hero.title || dest.name)}" decoding="async" referrerpolicy="no-referrer">`
+          : `<div class="detail-art ${BT.art(dest.category)}">
         <i data-lucide="${BT.esc(meta.icon)}" class="detail-icon" aria-hidden="true"></i>
-      </div>
+      </div>`
+      }
       <div class="detail-hero-top">
         <button class="btn btn-secondary btn-sm ${saved ? "is-saved" : ""}" id="save-dest" type="button" aria-pressed="${saved ? "true" : "false"}">
           ${BT.icon("heart")}<span>${saved ? "Saved" : "Save"}</span>
@@ -59,9 +66,38 @@
     </div>`;
   }
 
+  function renderGallery(dest) {
+    const images = dest.images || [];
+    if (!images.length) return "";
+    const items = images
+      .map((image, index) => {
+        const credit = BT.photoCredit(image.credit, image.licence);
+        return `<button class="gallery-item ${index === 0 ? "is-lead" : ""}" type="button"
+                  data-gallery-index="${index}"
+                  aria-label="Open photograph ${index + 1} of ${images.length}: ${BT.esc(image.title || dest.name)}">
+          <img data-photo src="${BT.esc(image.thumbnail_url || image.url)}"
+               alt="${BT.esc(image.title || dest.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          ${credit ? `<span class="gallery-cap">${BT.esc(credit)}</span>` : ""}
+        </button>`;
+      })
+      .join("");
+    return `<div class="detail-section photo-gallery">
+        <div class="gallery-head">
+          <h2>Photographs</h2>
+          <span class="gallery-count">${images.length} open-source photo${images.length === 1 ? "" : "s"} · Wikimedia Commons</span>
+        </div>
+        <div class="gallery-grid">${items}</div>
+        <p class="tiny muted" style="margin:12px 0 0">
+          ${BT.icon("info")} Each photograph is reused under its own free licence and is credited on the image.
+          Open a photo to see the photographer, licence and source file.
+        </p>
+      </div>`;
+  }
+
   function renderMain(dest) {
     const gaps = dest.data_gaps || [];
-    return `<div class="detail-section detail-copy">
+    return `${renderGallery(dest)}
+      <div class="detail-section detail-copy">
         <h2>About this place</h2>
         <p>${BT.esc(dest.description || "No description has been recorded for this place yet.")}</p>
         ${dest.significance ? `<p>${BT.esc(dest.significance)}</p>` : ""}
@@ -112,7 +148,11 @@
           ${infoRow("scale", "Licence", dest.licence_information)}
           ${infoRow("calendar-check", "Last verified", dest.last_verified_at ? BT.fmtDate(dest.last_verified_at) : null)}
           ${infoRow("badge-check", "Verification", dest.verification_status === "verified" ? "Human verified" : dest.verification_status === "provisional" ? "Provisional — not fully checked" : dest.verification_status)}
-          ${infoRow("image", "Photograph", dest.image_reference ? `${dest.image_reference}${dest.image_credit ? ` · ${dest.image_credit}` : ""}${dest.image_licence ? ` · ${dest.image_licence}` : ""}` : null)}
+          ${infoRow("image", "Photographs", (dest.images && dest.images.length)
+            ? `${dest.images.length} open-source photo${dest.images.length === 1 ? "" : "s"} from Wikimedia Commons — credited individually in the gallery`
+            : dest.image_reference
+            ? `${dest.image_reference}${dest.image_credit ? ` · ${dest.image_credit}` : ""}${dest.image_licence ? ` · ${dest.image_licence}` : ""}`
+            : null)}
         </div>
         <p class="data-provenance" style="margin:14px 0 0">
           Coordinates, where present, were checked against OpenStreetMap/Photon and are displayed under the
@@ -182,6 +222,67 @@
       </div>`;
   }
 
+  function openLightbox(images, startIndex) {
+    let index = startIndex;
+    const overlay = document.createElement("div");
+    overlay.className = "lightbox";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", "Photograph viewer");
+    document.body.appendChild(overlay);
+    document.body.classList.add("lightbox-open");
+
+    function close() {
+      document.removeEventListener("keydown", onKey);
+      document.body.classList.remove("lightbox-open");
+      overlay.remove();
+    }
+
+    function step(delta) {
+      index = (index + delta + images.length) % images.length;
+      paint();
+    }
+
+    function onKey(event) {
+      if (event.key === "Escape") close();
+      else if (event.key === "ArrowLeft") step(-1);
+      else if (event.key === "ArrowRight") step(1);
+    }
+
+    function paint() {
+      const image = images[index];
+      const credit = BT.photoCredit(image.credit, image.licence);
+      overlay.innerHTML = `
+        <button class="lightbox-close" type="button" aria-label="Close photo viewer">${BT.icon("x")}</button>
+        ${images.length > 1 ? `<button class="lightbox-nav prev" type="button" aria-label="Previous photo">${BT.icon("chevron-left")}</button>` : ""}
+        <figure class="lightbox-figure">
+          <img data-photo src="${BT.esc(image.url)}" alt="${BT.esc(image.title || "Photograph")}" referrerpolicy="no-referrer">
+          <figcaption>
+            <strong>${BT.esc(image.title || "Photograph")}</strong>
+            <span class="lightbox-credit">${BT.esc(credit || image.source_name || "Wikimedia Commons")}</span>
+            <span class="lightbox-links">
+              ${image.licence_url ? `<a href="${BT.esc(image.licence_url)}" target="_blank" rel="noopener">Licence</a>` : ""}
+              <a href="${BT.esc(image.page_url)}" target="_blank" rel="noopener">Source file on Wikimedia Commons</a>
+            </span>
+            <span class="lightbox-count">${index + 1} / ${images.length}</span>
+          </figcaption>
+        </figure>
+        ${images.length > 1 ? `<button class="lightbox-nav next" type="button" aria-label="Next photo">${BT.icon("chevron-right")}</button>` : ""}`;
+      BT.refreshIcons();
+      overlay.querySelector(".lightbox-close").addEventListener("click", close);
+      const prev = overlay.querySelector(".prev");
+      const next = overlay.querySelector(".next");
+      if (prev) prev.addEventListener("click", () => step(-1));
+      if (next) next.addEventListener("click", () => step(1));
+    }
+
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) close();
+    });
+    document.addEventListener("keydown", onKey);
+    paint();
+  }
+
   function bindActions(dest) {
     const toggleSave = async (button) => {
       if (button) await BT.toggleFavourite(dest.id, button);
@@ -203,6 +304,16 @@
     );
     document.getElementById("share-dest").addEventListener("click", () => BT.share(dest.name, BT.shareUrl(dest.slug)));
     document.getElementById("correct-dest").addEventListener("click", () => correctionModal(dest));
+
+    const gallery = document.querySelector(".photo-gallery");
+    if (gallery && dest.images && dest.images.length) {
+      gallery.addEventListener("click", (event) => {
+        const item = event.target.closest("[data-gallery-index]");
+        if (!item) return;
+        event.preventDefault();
+        openLightbox(dest.images, Number(item.dataset.galleryIndex));
+      });
+    }
   }
 
   function correctionModal(dest) {

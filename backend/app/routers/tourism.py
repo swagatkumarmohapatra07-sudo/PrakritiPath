@@ -9,7 +9,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request, status
 from sqlalchemy import func, or_, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from ..data.categories import CATEGORY_BY_SLUG, TOURISM_CATEGORIES
 from ..database import get_db
@@ -19,6 +19,7 @@ from ..schemas import (
     CategoryOut,
     CorrectionCreate,
     DestinationBase,
+    DestinationImageOut,
     DestinationListOut,
     DestinationNearby,
     DestinationOut,
@@ -106,6 +107,10 @@ def _data_gaps(dest: TourismDestination) -> list[str]:
         "facilities": "Visitor facilities",
     }
     for field, label in checks.items():
+        if field == "image_reference":
+            # Any credited open-source photograph fills this gap.
+            if dest.images or dest.image_reference:
+                continue
         if not getattr(dest, field):
             gaps.append(label)
     return gaps
@@ -241,7 +246,10 @@ def list_destinations(
         ),
     }[sort]
     items = db.scalars(
-        statement.order_by(*order).offset((page - 1) * page_size).limit(page_size)
+        statement.options(selectinload(TourismDestination.images))
+        .order_by(*order)
+        .offset((page - 1) * page_size)
+        .limit(page_size)
     ).all()
 
     return DestinationListOut(
@@ -279,6 +287,9 @@ def destination_detail(
             detail="Destination not found. It may have been removed or the link is incorrect.",
         )
     payload = DestinationBase.model_validate(dest).model_dump()
+    payload["images"] = [
+        DestinationImageOut.model_validate(image).model_dump() for image in dest.images
+    ]
     payload["nearby"] = (
         [item.model_dump() for item in _nearby(db, dest, limit=nearby_limit)]
         if nearby_limit
