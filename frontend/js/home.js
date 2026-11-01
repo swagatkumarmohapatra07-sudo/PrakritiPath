@@ -178,6 +178,33 @@
     const playBtn = document.querySelector("[data-hero-play]");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+    // The blurred backdrop mirrors the stage photo, crossfading between two
+    // layers so the recipient never sees a blank frame.
+    const backA = document.getElementById("hero-backdrop-a");
+    const backB = document.getElementById("hero-backdrop-b");
+    let backFront = backA;
+    let backToken = 0;
+    let backStarted = false;
+
+    function paintBackdrop(src) {
+      if (!backA || !backB || !src) return;
+      if (!backStarted) {
+        backA.style.backgroundImage = `url("${src}")`;
+        backA.classList.add("is-visible");
+        backStarted = true;
+        return;
+      }
+      const token = ++backToken;
+      const incoming = backFront === backA ? backB : backA;
+      incoming.style.backgroundImage = `url("${src}")`;
+      window.requestAnimationFrame(() => {
+        if (token !== backToken) return;
+        incoming.classList.add("is-visible");
+        if (backFront) backFront.classList.remove("is-visible");
+        backFront = incoming;
+      });
+    }
+
     let index = Math.max(0, buttons.findIndex((btn) => btn.classList.contains("is-active")));
     let timer = null;
     let playing = !reduced.matches;
@@ -200,6 +227,7 @@
       });
 
       const src = data.src;
+      paintBackdrop(src);
       if (stageImg && src && stageImg.getAttribute("src") !== src) {
         stageImg.classList.add("is-swapping");
         const preload = new Image();
@@ -363,6 +391,7 @@
       greeting: "ସ୍ୱାଗତ",
       place: "ଓଡ଼ିଶାର ହୃଦୟରୁ",
       accent: "#b04a2b",
+      accentBright: "#ff9d72",
     },
     sambalpuri: {
       line1: "ଆମର ମାଟି,",
@@ -371,6 +400,7 @@
       greeting: "ଜୁହାର୍",
       place: "ପଶ୍ଚିମ ଓଡ଼ିଶାର ମାଟିରୁ",
       accent: "#2f6b4f",
+      accentBright: "#7fd8a8",
     },
     cuttacki: {
       line1: "ଆମ କଟକ,",
@@ -379,6 +409,7 @@
       greeting: "ଆସନ୍ତୁ",
       place: "କଟକର ମାଟିରୁ",
       accent: "#b07d2a",
+      accentBright: "#f6c96d",
     },
     bhadraki: {
       line1: "ଭଦ୍ରକର ମାଟି,",
@@ -387,6 +418,7 @@
       greeting: "ସ୍ୱାଗତ",
       place: "ଭଦ୍ରକର ଉପକୂଳରୁ",
       accent: "#3a6f8f",
+      accentBright: "#8ec9ea",
     },
     puri: {
       line1: "ପୁରୀ ଧାମ,",
@@ -395,6 +427,7 @@
       greeting: "ଜୟ ଜଗନ୍ନାଥ",
       place: "ଜଗନ୍ନାଥଙ୍କ ନଗରୀରୁ",
       accent: "#9a3b2a",
+      accentBright: "#ff9b7e",
     },
   };
 
@@ -424,6 +457,13 @@
         btn.setAttribute("aria-pressed", String(active));
       });
       copy.style.setProperty("--region-accent", dialect.accent);
+      const bright = dialect.accentBright || dialect.accent;
+      copy.style.setProperty("--region-accent-bright", bright);
+      const heroRoot = document.querySelector(".hero");
+      if (heroRoot) {
+        heroRoot.style.setProperty("--region-accent", dialect.accent);
+        heroRoot.style.setProperty("--region-accent-bright", bright);
+      }
 
       const commit = () => {
         if (line1) line1.textContent = dialect.line1;
