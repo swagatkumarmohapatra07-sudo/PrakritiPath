@@ -405,7 +405,9 @@ body.home .hero {
   transition: color 0.35s var(--ease);
 }
 .hero-copy .hero-title em::after { display: none; }
-[data-theme="dark"] .hero-copy .hero-title em { color: var(--region-accent, var(--gold)); }
+[data-theme="dark"] .hero-copy .hero-title em {
+  color: color-mix(in srgb, var(--region-accent) 38%, #ffe6bd);
+}
 .hero-title-line {
   display: inline-block;
   transition: opacity 0.2s var(--ease), transform 0.24s var(--ease);
@@ -507,6 +509,13 @@ body.home .hero {
     0 18px 34px -26px rgba(0, 0, 0, 0.85),
     inset 0 1px 0 rgba(255, 240, 215, 0.14);
 }
+[data-theme="dark"] .hero-dialects-label svg,
+[data-theme="dark"] .hero-dialect-note #hero-dialect-greeting {
+  color: color-mix(in srgb, var(--region-accent) 38%, #ffe6bd);
+}
+[data-theme="dark"] .hero-dialect:hover {
+  color: color-mix(in srgb, var(--region-accent) 30%, #ffe6bd);
+}
 .hero-copy .lede { margin-top: 16px; }
 .hero-search .input { background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(6px); }
 .hero-note { color: var(--ink-soft); }
@@ -602,7 +611,7 @@ body.home .hero {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px dashed color-mix(in srgb, var(--gold) 40%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--gold) 54%, transparent);
   animation: orbitSpin 120s linear infinite;
 }
 .hero-stage {
@@ -2043,7 +2052,7 @@ html { scroll-padding-top: calc(var(--nav-height) + 14px); }
 }
 
 @media (max-width: 460px) {
-  .hero-copy .hero-title { font-size: clamp(1.68rem, 8vw, 2.2rem); }
+  .hero-copy .hero-title { font-size: clamp(1.55rem, 7vw, 2rem); }
   .hero-title-en { font-size: 0.82rem; }
   .hero-ctas .btn { width: 100%; }
   .hero-showcase-label { font-size: 0.55rem; }
