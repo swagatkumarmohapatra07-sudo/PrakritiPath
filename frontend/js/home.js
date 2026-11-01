@@ -355,9 +355,120 @@
     start();
   }
 
+  const HERO_DIALECTS = {
+    standard: {
+      line1: "ଆମ ମୂଳ ଖୋଜ।",
+      line2: "ଆମ ସମ୍ପଦ ଅନ୍ୱେଷଣ।",
+      en: "Discover our roots. Explore our treasures.",
+      greeting: "ସ୍ୱାଗତ",
+      place: "ଓଡ଼ିଶାର ହୃଦୟରୁ",
+      accent: "#b04a2b",
+    },
+    sambalpuri: {
+      line1: "ଆମର ମାଟି,",
+      line2: "ଆମର ସଂସ୍କୃତି।",
+      en: "Our soil, our culture.",
+      greeting: "ଜୁହାର୍",
+      place: "ପଶ୍ଚିମ ଓଡ଼ିଶାର ମାଟିରୁ",
+      accent: "#2f6b4f",
+    },
+    cuttacki: {
+      line1: "ଆମ କଟକ,",
+      line2: "ଆମର ଗର୍ବ।",
+      en: "Our Cuttack, our pride.",
+      greeting: "ଆସନ୍ତୁ",
+      place: "କଟକର ମାଟିରୁ",
+      accent: "#b07d2a",
+    },
+    bhadraki: {
+      line1: "ଭଦ୍ରକର ମାଟି,",
+      line2: "ଲୁଣ ଓ ଲୋକକଥା।",
+      en: "Bhadrak's soil, salt and folklore.",
+      greeting: "ସ୍ୱାଗତ",
+      place: "ଭଦ୍ରକର ଉପକୂଳରୁ",
+      accent: "#3a6f8f",
+    },
+    puri: {
+      line1: "ପୁରୀ ଧାମ,",
+      line2: "ଜଗନ୍ନାଥଙ୍କ ନଗରୀ।",
+      en: "Puri Dham, the city of Jagannath.",
+      greeting: "ଜୟ ଜଗନ୍ନାଥ",
+      place: "ଜଗନ୍ନାଥଙ୍କ ନଗରୀରୁ",
+      accent: "#9a3b2a",
+    },
+  };
+
+  function setupHeroDialects() {
+    const dock = document.getElementById("hero-dialects");
+    const copy = document.querySelector(".hero-copy");
+    if (!dock || !copy) return;
+    const buttons = Array.from(dock.querySelectorAll("[data-dialect]"));
+    if (!buttons.length) return;
+
+    const line1 = document.getElementById("hero-title-line-1");
+    const line2 = document.getElementById("hero-title-line-2");
+    const en = document.getElementById("hero-title-en");
+    const greeting = document.getElementById("hero-dialect-greeting");
+    const place = document.getElementById("hero-dialect-place");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let current = "standard";
+    let timer = null;
+
+    function apply(key, animate) {
+      const dialect = HERO_DIALECTS[key];
+      if (!dialect) return;
+      current = key;
+      buttons.forEach((btn) => {
+        const active = btn.dataset.dialect === key;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+      copy.style.setProperty("--region-accent", dialect.accent);
+
+      const commit = () => {
+        if (line1) line1.textContent = dialect.line1;
+        if (line2) line2.textContent = dialect.line2;
+        if (en) en.textContent = dialect.en;
+        if (greeting) greeting.textContent = dialect.greeting;
+        if (place) place.textContent = dialect.place;
+        copy.classList.remove("is-dialect-switching");
+      };
+
+      if (animate && !reduced.matches) {
+        copy.classList.add("is-dialect-switching");
+        if (timer) window.clearTimeout(timer);
+        timer = window.setTimeout(commit, 170);
+      } else {
+        commit();
+      }
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.dialect;
+        if (key === current) return;
+        apply(key, true);
+        try {
+          localStorage.setItem("pp-hero-dialect", key);
+        } catch (err) {
+          /* storage can be unavailable in private modes */
+        }
+      });
+    });
+
+    let saved = "standard";
+    try {
+      saved = localStorage.getItem("pp-hero-dialect") || "standard";
+    } catch (err) {
+      /* storage can be unavailable in private modes */
+    }
+    apply(HERO_DIALECTS[saved] ? saved : "standard", false);
+  }
+
   async function init() {
     setupSearch();
     setupHeroGallery();
+    setupHeroDialects();
 
     try {
       await BT.loadTaxonomy();
